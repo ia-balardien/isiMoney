@@ -5,277 +5,293 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="Simulateur de solde pour les officiers des corps de l'armement" />
     <meta name="author" content="IA Balardien" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <meta name="viewport"
         content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" /> -->
     <title>Simulateur de solde des OCA</title>
     <!-- <link href="css/style.css" rel="stylesheet" /> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body>
-    <table>
-        <tr>
-            <td>
-                <label for="grade">Grade et echelon :</label>
-            </td>
-            <td><select id="grade" name="grade" onchange="updateData()" required>
-                </select>
-                <!-- onchange="calculSolde()" -->
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="indice">Indice de solde :</label>
-            </td>
-            <td id="val_indice">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="nbi">NBI :</label>
-            </td>
-            <td><select id="nbi" name="nbi" onchange="updateData()" required>
-                    <option value="0">0 pts</option>
-                    <option value="80">80 pts</option>
-                    <option value="90">90 pts</option>
-                    <option value="100">100 pts</option>
-                    <option value="110">110 pts</option>
-                    <option value="120">120 pts</option>
-                    <option value="140">140 pts</option>
-                    <option value="160">160 pts</option>
-                    <option value="170">170 pts</option>
-                    <option value="180">180 pts</option>
-                    <option value="200">200 pts</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="zone">Zone d'abattement :</label>
-            </td>
-            <td><select id="zone" name="zone" onchange="updateData()" required>
-                    <option value="0">Zone 1</option>
-                    <option value="1">Zone 2</option>
-                    <option value="2">Zone 3</option>
+    <div class="container text-left">
+        <div class="row align-items-start row-cols-1 row-cols-sm-2">
+            <div class="col">
+                <div class="container text-left">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="grade">Grade et echelon</label>
+                                <select class="form-select" id="grade" name="grade" onchange="updateData()" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-floating mb-3">
+                                <input type="number" readonly class="form-control-plaintext" id="val_indice"
+                                    placeholder="" value="">
+                                <label for="val_indice">Indice de solde</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="corps_tech" onchange="updateData()">
+                        <label class="form-check-label" for="corps_tech">Corps technique</label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="nbi">NBI</label>
+                        <select class="form-select" id="nbi" name="nbi" onchange="updateData()" required>
+                            <option value="0">0 pts</option>
+                            <option value="80">80 pts</option>
+                            <option value="90">90 pts</option>
+                            <option value="100">100 pts</option>
+                            <option value="110">110 pts</option>
+                            <option value="120">120 pts</option>
+                            <option value="140">140 pts</option>
+                            <option value="160">160 pts</option>
+                            <option value="170">170 pts</option>
+                            <option value="180">180 pts</option>
+                            <option value="200">200 pts</option>
+                        </select>
+                    </div>
 
-                </select>
-                <!-- <input type="number" id="nbi" name="indice" min="1" onchange="calculNbi()" required /> -->
-                <!-- onchange="calculSolde()" -->
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="situation_familiale">Situation familiale :</label>
-            </td>
-            <td><select id="situation_familiale" name="situation_familiale" onchange="updateData()" required>
-                    <option>Célibataire sans enfant </option>
-                    <option>Marié/Pacsé</option>
-                    <option>1 enfant </option>
-                    <option>2 enfants </option>
-                    <option>3 enfants </option>
-                    <option>4 enfants </option>
-                    <option>5 enfants </option>
-                    <option>6 enfants </option>
-                    <option>7 enfants </option>
-                    <option>8 enfants </option>
-                    <option>9 enfants </option>
-                    <option>10 enfants</option>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="zone">Zone d'abattement</label>
+                        <select class="form-select" id="zone" name="zone" onchange="updateData()" required>
+                            <option value="0">Zone 1</option>
+                            <option value="1">Zone 2</option>
+                            <option value="2">Zone 3</option>
 
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="garnison">Lieu de garnison :</label>
-            </td>
-            <td><select id="garnison" name="garnison" onchange="updateData()" required>
-                    <option value="0">Ile-de-France</option>
-                    <option value="1">Bruz ou Biscarosse</option>
-                    <option value="2">Province (excepté Bruz et Biscarosse)</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="logement">Type de logement :</label>
-            </td>
-            <td><select id="logement" name="logement" onchange="updateData()" required>
-                    <option value="0">Logement gratuit</option>
-                    <option value="1">Locataire SNI</option>
-                    <option value="2">Locataire privé</option>
-                    <option value="3">Propriétaire</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td><label for="loyer">Loyer mensuel : </label>
-            </td>
-            <td><input type="number" id="loyer" name="loyer" min="0" onchange="updateData()" />
-            </td>
-        </tr>
-        <tr>
-            <td><label for="corps_tech">Corps technique : </label>
-            </td>
-            <td><input type="checkbox" id="corps_tech" name="corps_tech" onchange="updateData()" /></td>
-        </tr>
-        <tr>
-            <td><label for="domicile_travail">Abonnement trajet domicile/travail : </label>
-            </td>
-            <td><input type="number" id="domicile_travail" name="domicile_travail" min="0" onchange="updateData()" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="niveau_poste">Niveau de poste (prime PERF) :</label>
-            </td>
-            <td><select id="niveau_poste" name="niveau_poste" onchange="updateData()" required>
-                    <option>Poste niveau 1</option>
-                    <option>Poste niveau 2</option>
-                    <option>Poste niveau 3</option>
-                    <option>Poste niveau 4</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="part_variable">Part variable :</label>
-            </td>
-            <td><select id="part_variable" name="part_variable" onchange="updateData()" required>
-                    <option value="0">Pas de part variable</option>
-                    <option value="0.10">10%</option>
-                    <option value="0.20">20%</option>
-                    <option value="0.30">30%</option>
-                    <option value="0.40">40%</option>
-                    <option value="0.50">50%</option>
-                    <option value="0.55">55%</option>
-                    <option value="0.60">60%</option>
-                    <option value="0.65">65%</option>
-                    <option value="0.70">70%</option>
-                    <option value="0.75">75%</option>
-                    <option value="0.80">80%</option>
-                    <option value="0.85">85%</option>
-                    <option value="0.90">90%</option>
-                    <option value="0.95">95%</option>
-                    <option value="1.00">100%</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td><label for="compensation_CSG">Indemnité compensatrice de la hausse de la CSG : </label>
-            </td>
-            <td><input type="number" id="compensation_CSG" name="compensation_CSG" min="0" step="any"
-                    onchange="updateData()" />
-            </td>
-        </tr>
-        <tr>
-            <td><label for="participation_PSC">Participation à la PSC : </label>
-            </td>
-            <td><input type="checkbox" id="participation_PSC" name="participation_PSC" onchange="updateData()" /></td>
-        </tr>
-    </table>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="situation_familiale">Situation familiale</label>
+                        <select class="form-select" id="situation_familiale" name="situation_familiale"
+                            onchange="updateData()" required>
+                            <option>Célibataire sans enfant </option>
+                            <option>Marié/Pacsé</option>
+                            <option>1 enfant </option>
+                            <option>2 enfants </option>
+                            <option>3 enfants </option>
+                            <option>4 enfants </option>
+                            <option>5 enfants </option>
+                            <option>6 enfants </option>
+                            <option>7 enfants </option>
+                            <option>8 enfants </option>
+                            <option>9 enfants </option>
+                            <option>10 enfants</option>
 
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="garnison">Lieu de garnison</label>
+                        <select class="form-select" id="garnison" name="garnison" onchange="updateData()" required>
+                            <option value="0">Ile-de-France</option>
+                            <option value="1">Bruz ou Biscarosse</option>
+                            <option value="2">Province - Autre</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="logement">Type de logement</label>
+                        <select class="form-select" id="logement" name="logement" onchange="updateData()" required>
+                            <option value="0">Logement gratuit</option>
+                            <option value="1">Locataire SNI</option>
+                            <option value="2">Locataire privé</option>
+                            <option value="3">Propriétaire</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="loyer">Loyer mensuel </label>
+                        <input class="form-control" type="number" id="loyer" name="loyer" min="0"
+                            onchange="updateData()" />
+                    </div>
 
-    <table>
-        <tr>
-            <th>Element</th>
-            <th>Montant</th>
-        </tr>
-        <tr>
-            <td>Solde</td>
-            <td id="val_solde"></td>
-        </tr>
-        <tr>
-            <td>NBI</td>
-            <td id="val_nbi"></td>
-        </tr>
-        <tr>
-            <td>Indemnité de résidence</td>
-            <td id="val_residence"></td>
-        </tr>
-        <tr>
-            <td>Supplément familial (SFS/SFT) :</td>
-            <td id="val_supplement_familial"></td>
-        </tr>
-        <tr>
-            <td>Prime corps technique :</td>
-            <td id="val_corps_tech"></td>
-        </tr>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="domicile_travail">Abonnement trajet
+                            domicile/travail</label>
+                        <input class="form-control" type="number" id="domicile_travail" name="domicile_travail" min="0"
+                            onchange="updateData()" />
+                    </div>
 
-        <tr>
-            <td>Remboursement domicile/travail :</td>
-            <td id="val_domicile_travail"></td>
-        </tr>
-        <tr>
-            <td>Prime PERF fixe :</td>
-            <td id="val_perf_fixe"></td>
-        </tr>
-        <tr>
-            <td>Prime PERF variable :</td>
-            <td id="val_perf_variable"></td>
-        </tr>
-        <tr>
-            <td>ICM :</td>
-            <td id="val_icm"></td>
-        </tr>
-        <tr>
-            <td>MICM :</td>
-            <td id="val_micm"></td>
-        </tr>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="niveau_poste">Niveau de poste (prime PERF)</label>
+                        <select class="form-select" id="niveau_poste" name="niveau_poste" onchange="updateData()"
+                            required>
+                            <option>Poste niveau 1</option>
+                            <option>Poste niveau 2</option>
+                            <option>Poste niveau 3</option>
+                            <option>Poste niveau 4</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="part_variable">Part variable</label>
+                        <select class="form-select" id="part_variable" name="part_variable" onchange="updateData()"
+                            required>
+                            <option value="0">Pas de part variable</option>
+                            <option value="0.10">10%</option>
+                            <option value="0.20">20%</option>
+                            <option value="0.30">30%</option>
+                            <option value="0.40">40%</option>
+                            <option value="0.50">50%</option>
+                            <option value="0.55">55%</option>
+                            <option value="0.60">60%</option>
+                            <option value="0.65">65%</option>
+                            <option value="0.70">70%</option>
+                            <option value="0.75">75%</option>
+                            <option value="0.80">80%</option>
+                            <option value="0.85">85%</option>
+                            <option value="0.90">90%</option>
+                            <option value="0.95">95%</option>
+                            <option value="1.00">100%</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text text-wrap" style="width: 15rem;" for="compensation_CSG">Indemnité
+                            compensatrice de la
+                            hausse de
+                            la CSG
+                        </label>
+                        <input class="form-control" type="number" id="compensation_CSG" name="compensation_CSG" min="0"
+                            step="any" onchange="updateData()" />
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="participation_PSC" onchange="updateData()">
+                        <label class="form-check-label" for="participation_PSC">Participation à la PSC</label>
+                    </div>
 
-        <tr>
-            <td>IAOP (TAOPC) :</td>
-            <td id="val_IAOP"></td>
-        </tr>
-        <tr>
-            <td>Ind. Compensatrice CSG :</td>
-            <td id="val_compensatrice_CSG"></td>
-        </tr>
-        <tr>
-            <td>Participation à la PSC :</td>
-            <td id="val_participation_PSC"></td>
-        </tr>
+                </div>
+            </div>
 
-        <tr>
-            <td>Retenue pour pension :</td>
-            <td id="val_retenue_pc"></td>
-        </tr>
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Element</th>
+                            <th scope="col">Montant</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <th scope="row">Solde</th>
+                            <td id="val_solde">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">NBI</th>
+                            <td id="val_nbi">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Indemnité de résidence</th>
+                            <td id="val_residence">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Supplément familial (SFS/SFT)</th>
+                            <td id="val_supplement_familial">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Prime corps technique</th>
+                            <td id="val_corps_tech">
+                            </td>
+                        </tr>
 
-        <tr>
-            <td>CSG non déductible :</td>
-            <td id="val_csg_non_deductible"></td>
-        </tr>
+                        <tr>
+                            <th scope="row">Remboursement domicile/travail</th>
+                            <td id="val_domicile_travail">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Prime PERF fixe</th>
+                            <td id="val_perf_fixe">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Prime PERF variable</th>
+                            <td id="val_perf_variable">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">ICM</th>
+                            <td id="val_icm">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">MICM</th>
+                            <td id="val_micm">
+                            </td>
+                        </tr>
 
-        <tr>
-            <td>CSG déductible :</td>
-            <td id="val_csg_deductible"></td>
-        </tr>
-        <tr>
-            <td>CRDS :</td>
-            <td id="val_crds"></td>
-        </tr>
-        <tr>
-            <td>Cotisation salariale RAFP :</td>
-            <td id="val_contrib_RAFP"></td>
-        </tr>
-        <tr>
-            <td>Fond de prévoyance aéronautique :</td>
-            <td id="val_fond_aero"></td>
-        </tr>
-        <tr>
-            <td>Fond de prévoyance militaire :</td>
-            <td id="val_fond_militaire"></td>
-        </tr>
-        <tr>
-            <td>Transfert primes/points :</td>
-            <td id="val_transfert_primes_points"></td>
-        </tr>
-    </table>
+                        <tr>
+                            <th scope="row">IAOP (TAOPC)</th>
+                            <td id="val_IAOP">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Ind. Compensatrice CSG</th>
+                            <td id="val_compensatrice_CSG">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Participation à la PSC</th>
+                            <td id="val_participation_PSC">
+                            </td>
+                        </tr>
 
+                        <tr>
+                            <th scope="row">Retenue pour pension</th>
+                            <td id="val_retenue_pc">
+                            </td>
+                        </tr>
 
+                        <tr>
+                            <th scope="row">CSG non déductible</th>
+                            <td id="val_csg_non_deductible">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">CSG déductible</th>
+                            <td id="val_csg_deductible">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">CRDS</th>
+                            <td id="val_crds">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Cotisation salariale RAFP</th>
+                            <td id="val_contrib_RAFP">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fond de prévoyance aéronautique</th>
+                            <td id="val_fond_aero">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fond de prévoyance militaire</th>
+                            <td id="val_fond_militaire">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Transfert primes/points</th>
+                            <td id="val_transfert_primes_points">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 
     <script type="text/javascript" src="ssoca.js"></script>
-    <!-- <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script> -->
 </body>
 
 </html>

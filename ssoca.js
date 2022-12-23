@@ -121,7 +121,7 @@ function updateData() {
 }
 
 function showValues() {
-    document.getElementById("val_indice").innerHTML = calculIndice();
+    document.getElementById("val_indice").value = calculIndice();
 
     document.getElementById("val_solde").innerHTML = round(calculSolde(), 2);
     document.getElementById("val_nbi").innerHTML = round(calculNbi(), 2);
@@ -138,7 +138,7 @@ function showValues() {
     document.getElementById("val_micm").innerHTML = round(calculMICM(), 2);
 
     document.getElementById("val_compensatrice_CSG").innerHTML = compensation_CSG;
-    document.getElementById("val_participation_PSC").innerHTML = participation_PSC;
+    document.getElementById("val_participation_PSC").innerHTML = calculParticipationPSC();
 
     document.getElementById("val_IAOP").innerHTML = calculIAOP();
 

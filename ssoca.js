@@ -530,7 +530,6 @@ const taux_CRDS = 0.5 / 100;
 
 function calculCSGDeductible() {
     let t = totalAssietteCSG().map(function (v) { return round(v * taux_assiette_CSG_CRDS * taux_CSG_deductible, 2) });
-    console.log("assiettes " + t);
     return t;
 }
 

@@ -123,33 +123,33 @@ function updateData() {
 function showValues() {
     document.getElementById("val_indice").value = calculIndice();
 
-    document.getElementById("val_solde").innerHTML = round(calculSolde(), 2);
-    document.getElementById("val_nbi").innerHTML = round(calculNbi(), 2);
-    document.getElementById("val_residence").innerHTML = round(calculResidence(), 2);
-    document.getElementById("val_supplement_familial").innerHTML = round(calculSupplementFamilial(), 2);
-    document.getElementById("val_corps_tech").innerHTML = round(calculCorpsTechnique(), 2);
-    document.getElementById("val_domicile_travail").innerHTML = round(calculRemboursementDomTravail(), 2);
+    document.getElementById("val_solde").innerHTML = texteMontant(round(calculSolde(), 2));
+    document.getElementById("val_nbi").innerHTML = texteMontant(round(calculNbi(), 2));
+    document.getElementById("val_residence").innerHTML = texteMontant(round(calculResidence(), 2));
+    document.getElementById("val_supplement_familial").innerHTML = texteMontant(round(calculSupplementFamilial(), 2));
+    document.getElementById("val_corps_tech").innerHTML = texteMontant(round(calculCorpsTechnique(), 2));
+    document.getElementById("val_domicile_travail").innerHTML = texteMontant(round(calculRemboursementDomTravail(), 2));
 
-    document.getElementById("val_perf_fixe").innerHTML = round(calculPerfFixe(), 2);
+    document.getElementById("val_perf_fixe").innerHTML = texteMontant(round(calculPerfFixe(), 2));
     document.getElementById("val_perf_variable").innerHTML = textePerfVariable();
 
-    document.getElementById("val_icm").innerHTML = round(calculICM(), 2);
+    document.getElementById("val_icm").innerHTML = texteMontant(round(calculICM(), 2));
 
-    document.getElementById("val_micm").innerHTML = round(calculMICM(), 2);
+    document.getElementById("val_micm").innerHTML = texteMontant(round(calculMICM(), 2));
 
-    document.getElementById("val_compensatrice_CSG").innerHTML = compensation_CSG;
-    document.getElementById("val_participation_PSC").innerHTML = calculParticipationPSC();
+    document.getElementById("val_compensatrice_CSG").innerHTML = texteMontant(compensation_CSG);
+    document.getElementById("val_participation_PSC").innerHTML = texteMontant(calculParticipationPSC());
 
-    document.getElementById("val_IAOP").innerHTML = calculIAOP();
+    document.getElementById("val_IAOP").innerHTML = texteMontant(calculIAOP());
 
-    document.getElementById("val_retenue_pc").innerHTML = calculRetenuePension();
+    document.getElementById("val_retenue_pc").innerHTML = texteMontant(calculRetenuePension());
     document.getElementById("val_csg_non_deductible").innerHTML = texteTableauCotisation(calculCSGNonDeductible());
     document.getElementById("val_csg_deductible").innerHTML = texteTableauCotisation(calculCSGDeductible());
     document.getElementById("val_crds").innerHTML = texteTableauCotisation(calculCRDS());
-    document.getElementById("val_contrib_RAFP").innerHTML = calculCotisationRAFP();
-    document.getElementById("val_fond_aero").innerHTML = calculPrevoyanceAero();
-    document.getElementById("val_fond_militaire").innerHTML = calculPrevoyanceMilitaire();
-    document.getElementById("val_transfert_primes_points").innerHTML = calculTransfertPrimePoint();
+    document.getElementById("val_contrib_RAFP").innerHTML = texteMontant(calculCotisationRAFP());
+    document.getElementById("val_fond_aero").innerHTML = texteMontant(calculPrevoyanceAero());
+    document.getElementById("val_fond_militaire").innerHTML = texteMontant(calculPrevoyanceMilitaire());
+    document.getElementById("val_transfert_primes_points").innerHTML = texteMontant(calculTransfertPrimePoint());
 
 }
 
@@ -272,14 +272,6 @@ function calculPerfVariable() {
     return val_part_variable_max[niveau_poste] * part_variable
 }
 
-function textePerfVariable() {
-    var perf_var = calculPerfVariable();
-    var perf_dec = round(5 * perf_var / 12, 2)
-    var perf_juin = round(7 * perf_var / 12, 2)
-    var texte = round(perf_var, 2) + " € (" + perf_dec + " € en Décembre et " + perf_juin + " € en Juin)"
-
-    return texte;
-}
 
 const ICM_logement_gratuit = [
     [[3_187.42, 3_187.42], [2_592.26, 2_592.26]],
@@ -495,9 +487,11 @@ function calculPrevoyanceAero() {
 }
 
 function calculPrevoyanceMilitaire() {
+
     if (corps_tech) {
-        return 0;
-    } else if (lieu_garnison == 0) {
+        return 0.0;
+    } else {
+
         var table_ICM;
 
         var cat_familiale_ICM = calculCatFamilialeICM()
@@ -549,7 +543,24 @@ function calculCRDS() {
     return totalAssietteCRDS().map(function (v) { return round(v * taux_assiette_CSG_CRDS * taux_CRDS, 2) });
 }
 
-function texteTableauCotisation(v) {
+function textePerfVariable() {
+    var perf_var = calculPerfVariable();
+    var perf_dec = round(5 * perf_var / 12, 2)
+    var perf_juin = round(7 * perf_var / 12, 2)
+    var texte = round(perf_var, 2) + " € (" + perf_dec + " € en Décembre et " + perf_juin + " € en Juin)"
 
-    return `${v[0]} (Jan., Fév., Avr., Mai, Jui., Aou., Oct., Nov.), ${v[1]} (Mar., Sept.), ${v[2]} (Juin),${v[3]} (Dèc.)`;
+    return `${texteMontant(perf_juin, true)} - Juin<br/>${texteMontant(perf_dec, true)} - Décembre<br/>${texteMontant(perf_dec + perf_juin, true)} - Total`;
+}
+
+function texteTableauCotisation(v) {
+    // ${v[0]} € - Jan., Fév., Avr., Mai, Jui., Aou., Oct., Nov.<br/>
+    return `${texteMontant(v[1])} - Mars, Septembre<br/> ${texteMontant(v[2])} - Juin<br/>${texteMontant(v[3])} - Décembre<br/> ${texteMontant(v[0])} - Autres mois`;
+}
+
+function texteMontant(v, show_zero = false) {
+    if (v == 0 && !show_zero) {
+        return "-"
+    } else {
+        return v.toFixed(2) + " €"
+    }
 }

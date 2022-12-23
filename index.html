@@ -20,16 +20,17 @@
         <div class="row align-items-start row-cols-1 row-cols-sm-2">
             <div class="col">
                 <div class="container text-left">
-                    <div class="row align-items-center">
-                        <div class="col-8">
+
+                    <div class="row row-cols-sm-1 row-cols-md-1 row-cols-lg-2 align-items-center">
+                        <div class="col">
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="grade">Grade et echelon</label>
+                                <label class="input-group-text text-wrap" for="grade">Grade et échelon</label>
                                 <select class="form-select" id="grade" name="grade" onchange="updateData()" required>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="form-floating mb-3">
+                        <div class="col">
+                            <div class=" form-floating mb-3">
                                 <input type="number" readonly class="form-control-plaintext" id="val_indice"
                                     placeholder="" value="">
                                 <label for="val_indice">Indice de solde</label>
@@ -41,7 +42,7 @@
                         <label class="form-check-label" for="corps_tech">Corps technique</label>
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="nbi">NBI</label>
+                        <label class="input-group-text text-wrap" for="nbi">NBI</label>
                         <select class="form-select" id="nbi" name="nbi" onchange="updateData()" required>
                             <option value="0">0 pts</option>
                             <option value="80">80 pts</option>
@@ -58,7 +59,7 @@
                     </div>
 
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="zone">Zone d'abattement</label>
+                        <label class="input-group-text text-wrap" for="zone">Zone d'abattement</label>
                         <select class="form-select" id="zone" name="zone" onchange="updateData()" required>
                             <option value="0">Zone 1</option>
                             <option value="1">Zone 2</option>
@@ -67,7 +68,7 @@
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="situation_familiale">Situation familiale</label>
+                        <label class="input-group-text text-wrap" for="situation_familiale">Situation familiale</label>
                         <select class="form-select" id="situation_familiale" name="situation_familiale"
                             onchange="updateData()" required>
                             <option>Célibataire sans enfant </option>
@@ -86,7 +87,7 @@
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="garnison">Lieu de garnison</label>
+                        <label class="input-group-text text-wrap" for="garnison">Lieu de garnison</label>
                         <select class="form-select" id="garnison" name="garnison" onchange="updateData()" required>
                             <option value="0">Ile-de-France</option>
                             <option value="1">Bruz ou Biscarosse</option>
@@ -94,7 +95,7 @@
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="logement">Type de logement</label>
+                        <label class="input-group-text text-wrap" for="logement">Type de logement</label>
                         <select class="form-select" id="logement" name="logement" onchange="updateData()" required>
                             <option value="0">Logement gratuit</option>
                             <option value="1">Locataire SNI</option>
@@ -103,20 +104,21 @@
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="loyer">Loyer mensuel </label>
+                        <label class="input-group-text text-wrap" for="loyer">Loyer mensuel </label>
                         <input class="form-control" type="number" id="loyer" name="loyer" min="0"
                             onchange="updateData()" />
                     </div>
 
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="domicile_travail">Abonnement trajet
+                        <label class="input-group-text text-wrap" for="domicile_travail">Abonnement trajet
                             domicile/travail</label>
                         <input class="form-control" type="number" id="domicile_travail" name="domicile_travail" min="0"
                             onchange="updateData()" />
                     </div>
 
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="niveau_poste">Niveau de poste (prime PERF)</label>
+                        <label class="input-group-text text-wrap" for="niveau_poste">Niveau de poste (prime
+                            PERF)</label>
                         <select class="form-select" id="niveau_poste" name="niveau_poste" onchange="updateData()"
                             required>
                             <option>Poste niveau 1</option>
@@ -126,7 +128,7 @@
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="part_variable">Part variable</label>
+                        <label class="input-group-text text-wrap" for="part_variable">Part variable</label>
                         <select class="form-select" id="part_variable" name="part_variable" onchange="updateData()"
                             required>
                             <option value="0">Pas de part variable</option>

@@ -53,6 +53,9 @@ var loyer_mensuel = 0;
 var compensation_CSG = 0;
 var participation_PSC = false;
 
+
+var vue_mois = 0;
+
 window.onload = function () {
     remplissageMenuGrades();
 
@@ -64,7 +67,7 @@ function remplissageMenuGrades() {
     var contents;
 
     for (let i in table_correspondance_indice) {
-        let tuple = table_correspondance_indice[i];
+        var tuple = table_correspondance_indice[i];
         contents += "<option>" + table_correspondance_indice[i][8] + "</option>";
     }
 
@@ -117,10 +120,24 @@ function updateData() {
     participation_PSC = document.getElementById("participation_PSC").checked;
 
 
-    showValues();
+    showMontants();
+    showValeursFDS();
 }
 
-function showValues() {
+function updateVue() {
+    vue_mois = document.getElementById("vue").selectedIndex;
+
+    if (vue_mois == 0) {
+        document.getElementById("montants").className = "visible"
+        document.getElementById("fds").className = "invisible d-none"
+    } else {
+        document.getElementById("fds").className = "visible"
+        document.getElementById("montants").className = "invisible d-none"
+    }
+    showValeursFDS();
+}
+
+function showMontants() {
     document.getElementById("val_indice").value = calculIndice();
 
     document.getElementById("val_solde").innerHTML = texteMontant(round(calculSolde(), 2));
@@ -146,13 +163,166 @@ function showValues() {
     document.getElementById("val_csg_non_deductible").innerHTML = texteTableauCotisation(calculCSGNonDeductible());
     document.getElementById("val_csg_deductible").innerHTML = texteTableauCotisation(calculCSGDeductible());
     document.getElementById("val_crds").innerHTML = texteTableauCotisation(calculCRDS());
-    document.getElementById("val_contrib_RAFP").innerHTML = texteMontant(calculCotisationRAFP());
+    document.getElementById("val_contrib_RAFP").innerHTML = texteRAFP();
     document.getElementById("val_fond_aero").innerHTML = texteMontant(calculPrevoyanceAero());
     document.getElementById("val_fond_militaire").innerHTML = texteMontant(calculPrevoyanceMilitaire());
     document.getElementById("val_transfert_primes_points").innerHTML = texteMontant(calculTransfertPrimePoint());
+}
+
+function showValeursFDS() {
+    document.getElementById("fds_solde").innerHTML = calculSolde();
+
+    document.getElementById("fds_nbi").innerHTML = calculNbi();
+    if (nbi == 0) {
+        document.getElementById("row_nbi").className = "invisible d-none";
+
+    } else {
+        document.getElementById("row_nbi").className = "visible";
+    }
+
+    var ind_residence = calculResidence()
+    if (ind_residence == 0) {
+        document.getElementById("row_residence").className = "invisible d-none";
+    } else {
+        document.getElementById("row_residence").className = "visible";
+    }
+    document.getElementById("fds_residence").innerHTML = ind_residence;
+
+    var supplement_familial = calculSupplementFamilial();
+    if (supplement_familial == 0) {
+        document.getElementById("row_supplement_familial").className = "invisible d-none";
+    } else {
+        document.getElementById("row_supplement_familial").className = "visible";
+    }
+    document.getElementById("fds_supplement_familial").innerHTML = supplement_familial;
+
+
+    if (corps_tech) {
+        document.getElementById("row_corps_tech").className = "visible";
+        document.getElementById("row_fond_aero").className = "visible";
+        document.getElementById("row_fond_militaire").className = "invisible d-none";
+    } else {
+        document.getElementById("row_corps_tech").className = "invisible d-none";
+        document.getElementById("row_fond_aero").className = "invisible d-none";
+        document.getElementById("row_fond_militaire").className = "visible";
+    }
+    document.getElementById("fds_corps_tech").innerHTML = calculCorpsTechnique();
+    document.getElementById("fds_fond_aero").innerHTML = calculPrevoyanceAero();
+    document.getElementById("fds_fond_militaire").innerHTML = calculPrevoyanceMilitaire();
+
+
+    var rbt_dom_trav = calculRemboursementDomTravail();
+    if (rbt_dom_trav == 0) {
+        document.getElementById("row_domicile_travail").className = "invisible d-none";
+    } else {
+        document.getElementById("row_domicile_travail").className = "visible";
+    }
+    document.getElementById("fds_domicile_travail").innerHTML = rbt_dom_trav;
+
+
+    document.getElementById("fds_perf_fixe").innerHTML = calculPerfFixe();
+
+    var fds_perf_elt = document.getElementById("fds_perf_variable");
+    var fds_perf_row = document.getElementById("row_perf_variable");
+    if (vue_mois == 6) { // Juin
+        fds_perf_elt.innerHTML = calculPerfVariable()[1];
+        fds_perf_row.className = "visible";
+    } else if (vue_mois == 12) { // Juin
+        fds_perf_elt.innerHTML = calculPerfVariable()[2];
+        fds_perf_row.className = "visible";
+    } else {
+        fds_perf_elt.innerHTML = 0.0;
+        fds_perf_row.className = "invisible d-none";
+    }
+
+    document.getElementById("fds_icm").innerHTML = calculICM();
+
+    var micm = calculMICM();
+
+    if (micm == 0) {
+        document.getElementById("row_micm").className = "invisible d-none";
+    } else {
+        document.getElementById("row_micm").className = "visible";
+    }
+    document.getElementById("fds_micm").innerHTML = micm;
+
+
+
+    if (compensation_CSG == 0) {
+        document.getElementById("row_compensatrice_CSG").className = "invisible d-none";
+    } else {
+        document.getElementById("row_compensatrice_CSG").className = "visible";
+    }
+    document.getElementById("fds_compensatrice_CSG").innerHTML = compensation_CSG;
+
+
+    if (participation_PSC) {
+        document.getElementById("row_participation_PSC").className = "visible";
+    } else {
+        document.getElementById("row_participation_PSC").className = "invisible d-none";
+    }
+    document.getElementById("fds_participation_PSC").innerHTML = calculParticipationPSC();
+
+    if (vue_mois == 3 || vue_mois == 9) {
+        document.getElementById("fds_csg_non_deductible").innerHTML = calculCSGNonDeductible()[1];
+        document.getElementById("fds_csg_deductible").innerHTML = calculCSGDeductible()[1];
+        document.getElementById("fds_crds").innerHTML = calculCRDS()[1];
+        document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][0];
+    } else if (vue_mois == 6) {
+        document.getElementById("fds_csg_non_deductible").innerHTML = calculCSGNonDeductible()[2];
+        document.getElementById("fds_csg_deductible").innerHTML = calculCSGDeductible()[2];
+        document.getElementById("fds_crds").innerHTML = calculCRDS()[2];
+        document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][1];
+    } else if (vue_mois == 12) {
+        document.getElementById("fds_csg_non_deductible").innerHTML = calculCSGNonDeductible()[3];
+        document.getElementById("fds_csg_deductible").innerHTML = calculCSGDeductible()[3];
+        document.getElementById("fds_crds").innerHTML = calculCRDS()[3];
+        document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][1];
+    } else {
+        document.getElementById("fds_csg_non_deductible").innerHTML = calculCSGNonDeductible()[0];
+        document.getElementById("fds_csg_deductible").innerHTML = calculCSGDeductible()[0];
+        document.getElementById("fds_crds").innerHTML = calculCRDS()[0];
+        document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][0];
+    }
+
+    document.getElementById("fds_IAOP").innerHTML = calculIAOP();
+    document.getElementById("fds_retenue_pc").innerHTML = calculRetenuePension();
+    document.getElementById("fds_transfert_primes_points").innerHTML = calculTransfertPrimePoint();
+
+    document.getElementById("fds_net_a_payer").innerHTML = round(calculTotal(), 2);
 
 }
 
+function calculTotal() {
+    var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
+
+    tot += calculRemboursementDomTravail() + calculPerfFixe();
+
+    var perf_var = 0;
+    if (vue_mois == 6) { // Juin
+        perf_var = calculPerfVariable()[1];
+    } else if (vue_mois == 12) { // Juin
+        perf_var = calculPerfVariable()[2];
+    }
+
+    tot += perf_var + calculICM() + calculMICM() + compensation_CSG + calculParticipationPSC() + calculIAOP();
+
+    tot -= calculPrevoyanceAero() + calculPrevoyanceMilitaire();
+
+    var cotisation = 0;
+    if (vue_mois == 3 || vue_mois == 9) {
+        cotisation = calculCSGNonDeductible()[1] + calculCSGDeductible()[1] + calculCRDS()[1] + calculCotisationRAFP()[1][0];
+    } else if (vue_mois == 6) {
+        cotisation = calculCSGNonDeductible()[2] + calculCSGDeductible()[2] + calculCRDS()[2] + calculCotisationRAFP()[1][1];
+    } else if (vue_mois == 12) {
+        cotisation = calculCSGNonDeductible()[3] + calculCSGDeductible()[3] + calculCRDS()[3] + calculCotisationRAFP()[1][1];
+    } else {
+        cotisation = calculCSGNonDeductible()[0] + calculCSGDeductible()[0] + calculCRDS()[0] + calculCotisationRAFP()[1][0];
+    }
+    tot -= cotisation + calculRetenuePension() + calculTransfertPrimePoint();
+
+    return tot;
+}
 
 function calculIndice() {
     return table_correspondance_indice[ligne_grade_echelon][0]
@@ -268,8 +438,11 @@ function calculPerfVariable() {
         16_700,
         13_718,
     ]
+    var perf_var = val_part_variable_max[niveau_poste] * part_variable;
+    var perf_dec = round(5 * perf_var / 12, 2)
+    var perf_juin = round(7 * perf_var / 12, 2)
 
-    return val_part_variable_max[niveau_poste] * part_variable
+    return [perf_dec + perf_juin, perf_juin, perf_dec];
 }
 
 
@@ -456,11 +629,9 @@ function totalAssietteCSG() {
     var base_IAOP = base + calculIAOP();
 
     var perf_var = calculPerfVariable();
-    var perf_dec = round(5 * perf_var / 12, 2)
-    var perf_juin = round(7 * perf_var / 12, 2)
 
-    var base_IAOP_perf_juin = base + perf_juin;
-    var base_IAOP_perf_dec = base + perf_dec;
+    var base_IAOP_perf_juin = base + perf_var[1];
+    var base_IAOP_perf_dec = base + perf_var[2];
 
     var tab = [base, base_IAOP, base_IAOP_perf_juin, base_IAOP_perf_dec];
     return tab;
@@ -477,9 +648,20 @@ function totalAssietteCRDS() {
 
 function calculCotisationRAFP() {
     var v1 = 0.20 * calculSolde();
-    var v2 = calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculPerfVariable() + calculIAOP() + calculCorpsTechnique() + calculMICM() + compensation_CSG + calculParticipationPSC();
+    var v_base = calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculIAOP() + calculCorpsTechnique() + calculMICM() + compensation_CSG + calculParticipationPSC();
 
-    return round(Math.min(v1, v2) * 0.05, 2);
+    var v2_tab = calculPerfVariable();
+    v2_tab[0] = 0.0;
+    for (i in v2_tab) {
+        v2_tab[i] += v_base;
+    }
+
+
+    var t = v2_tab.map(function (v2) { return round(Math.min(v1, v2) * 0.05, 2) });
+
+    var egalite = (t[0] == t[1]) && (t[1] == t[2]);
+
+    return [egalite, t];
 }
 
 function calculPrevoyanceAero() {
@@ -529,7 +711,7 @@ const taux_CSG_non_deductible = 2.4 / 100;
 const taux_CRDS = 0.5 / 100;
 
 function calculCSGDeductible() {
-    let t = totalAssietteCSG().map(function (v) { return round(v * taux_assiette_CSG_CRDS * taux_CSG_deductible, 2) });
+    var t = totalAssietteCSG().map(function (v) { return round(v * taux_assiette_CSG_CRDS * taux_CSG_deductible, 2) });
     return t;
 }
 
@@ -544,11 +726,8 @@ function calculCRDS() {
 
 function textePerfVariable() {
     var perf_var = calculPerfVariable();
-    var perf_dec = round(5 * perf_var / 12, 2)
-    var perf_juin = round(7 * perf_var / 12, 2)
-    var texte = round(perf_var, 2) + " € (" + perf_dec + " € en Décembre et " + perf_juin + " € en Juin)"
 
-    return `${texteMontant(perf_juin, true)} - Juin<br/>${texteMontant(perf_dec, true)} - Décembre<br/>${texteMontant(perf_dec + perf_juin, true)} - Total`;
+    return `${texteMontant(perf_var[1], true)} - Juin<br/>${texteMontant(perf_var[2], true)} - Décembre<br/>${texteMontant(perf_var[0], true)} - Total`;
 }
 
 function texteTableauCotisation(v) {
@@ -561,5 +740,19 @@ function texteMontant(v, show_zero = false) {
         return "-"
     } else {
         return v.toFixed(2) + " €"
+    }
+}
+
+function texteRAFP() {
+    var rafp = calculCotisationRAFP();
+
+    if (rafp[0]) {
+        // egalite
+        return texteMontant(rafp[1][0]);
+    } else {
+
+        return `${texteMontant(rafp[1][1])} - Juin<br/> ${texteMontant(rafp[1][2])} - Décembre<br/>${texteMontant(rafp[1][0])} - Autres mois`;
+
+        texteTableauCotisation(rafp[1]);
     }
 }

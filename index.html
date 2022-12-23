@@ -163,126 +163,292 @@
             </div>
 
             <div class="col col-md-7">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Element</th>
-                            <th scope="col">Montant</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <th scope="row">Solde</th>
-                            <td id="val_solde">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">NBI</th>
-                            <td id="val_nbi">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Indemnité de résidence</th>
-                            <td id="val_residence">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Supplément familial (SFS/SFT)</th>
-                            <td id="val_supplement_familial">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Prime corps technique</th>
-                            <td id="val_corps_tech">
-                            </td>
-                        </tr>
 
-                        <tr>
-                            <th scope="row">Remboursement domicile/travail</th>
-                            <td id="val_domicile_travail">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Prime PERF fixe</th>
-                            <td id="val_perf_fixe">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Prime PERF variable</th>
-                            <td id="val_perf_variable">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">ICM</th>
-                            <td id="val_icm">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">MICM</th>
-                            <td id="val_micm">
-                            </td>
-                        </tr>
+                <select class="form-select" id="vue" name="vue" onchange="updateVue()" required>
+                    <option>Solde, primes & cotisations</option>
+                    <option>Feuille de solde - Janvier</option>
+                    <option>Feuille de solde - Février</option>
+                    <option>Feuille de solde - Mars</option>
+                    <option>Feuille de solde - Avril</option>
+                    <option>Feuille de solde - Mai</option>
+                    <option>Feuille de solde - Juin</option>
+                    <option>Feuille de solde - Juillet</option>
+                    <option>Feuille de solde - Août</option>
+                    <option>Feuille de solde - Septembre</option>
+                    <option>Feuille de solde - Octobre</option>
+                    <option>Feuille de solde - Novembre</option>
+                    <option>Feuille de solde - Décembre</option>
+                </select>
+                <div id="montants">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Element</th>
+                                <th scope="col">Montant</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr>
+                                <th scope="row">Solde</th>
+                                <td id="val_solde">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">NBI</th>
+                                <td id="val_nbi">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Indemnité de résidence</th>
+                                <td id="val_residence">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Supplément familial (SFS/SFT)</th>
+                                <td id="val_supplement_familial">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Prime corps technique</th>
+                                <td id="val_corps_tech">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <th scope="row">IAOP (TAOPC)</th>
-                            <td id="val_IAOP">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Ind. Compensatrice CSG</th>
-                            <td id="val_compensatrice_CSG">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Participation à la PSC</th>
-                            <td id="val_participation_PSC">
-                            </td>
-                        </tr>
+                            <tr>
+                                <th scope="row">Remboursement domicile/travail</th>
+                                <td id="val_domicile_travail">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Prime PERF fixe</th>
+                                <td id="val_perf_fixe">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Prime PERF variable</th>
+                                <td id="val_perf_variable">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ICM</th>
+                                <td id="val_icm">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">MICM</th>
+                                <td id="val_micm">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <th scope="row">Retenue pour pension</th>
-                            <td id="val_retenue_pc">
-                            </td>
-                        </tr>
+                            <tr>
+                                <th scope="row">IAOP (TAOPC)</th>
+                                <td id="val_IAOP">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Ind. Compensatrice CSG</th>
+                                <td id="val_compensatrice_CSG">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Participation à la PSC</th>
+                                <td id="val_participation_PSC">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <th scope="row">CSG non déductible</th>
-                            <td id="val_csg_non_deductible">
-                            </td>
-                        </tr>
+                            <tr>
+                                <th scope="row">Retenue pour pension</th>
+                                <td id="val_retenue_pc">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <th scope="row">CSG déductible</th>
-                            <td id="val_csg_deductible">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">CRDS</th>
-                            <td id="val_crds">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Cotisation salariale RAFP</th>
-                            <td id="val_contrib_RAFP">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Fond de prévoyance aéronautique</th>
-                            <td id="val_fond_aero">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Fond de prévoyance militaire</th>
-                            <td id="val_fond_militaire">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Transfert primes/points</th>
-                            <td id="val_transfert_primes_points">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <tr>
+                                <th scope="row">CSG non déductible</th>
+                                <td id="val_csg_non_deductible">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">CSG déductible</th>
+                                <td id="val_csg_deductible">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">CRDS</th>
+                                <td id="val_crds">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cotisation salariale RAFP</th>
+                                <td id="val_contrib_RAFP">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fond de prévoyance aéronautique</th>
+                                <td id="val_fond_aero">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fond de prévoyance militaire</th>
+                                <td id="val_fond_militaire">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Transfert primes/points</th>
+                                <td id="val_transfert_primes_points">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="fds" class="invisible d-none">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Eléments</th>
+                                <th scope="col">A payer</th>
+                                <th scope="col">A déduire</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr id="row_solde">
+                                <th scope="row">TRAIT. BRUT / SOLDE BRUT</th>
+                                <td id="fds_solde">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_nbi">
+                                <th scope="row">NBI</th>
+                                <td id="fds_nbi">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_retenue_pc">
+                                <th scope="row">RETENUE PC</th>
+                                <td></td>
+                                <td id="fds_retenue_pc">
+                                </td>
+                            </tr>
+                            <tr id="row_residence">
+                                <th scope="row">INDEMNITE DE RESIDENCE</th>
+                                <td id="fds_residence">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_supplement_familial">
+                                <th scope="row">Supplément familial (SFS/SFT)</th>
+                                <td id="fds_supplement_familial">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_domicile_travail">
+                                <th scope="row">REMBT DOMICILE/TRAVAIL</th>
+                                <td id="fds_domicile_travail">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_icm">
+                                <th scope="row">IND. CHARGES MILITAIRE</th>
+                                <td id="fds_icm">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_micm">
+                                <th scope="row">MAJ. IND. CHARGES MILITAIRE</th>
+                                <td id="fds_micm">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_IAOP">
+                                <th scope="row">IND.ACT.OBLIG.PROF.</th>
+                                <td id="fds_IAOP">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_compensatrice_CSG">
+                                <th scope="row">IND. COMPENSATRICE CSG</th>
+                                <td id="fds_compensatrice_CSG">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_perf_fixe">
+                                <th scope="row">PR. PERFORMANCE (FONCT.)</th>
+                                <td id="fds_perf_fixe">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_perf_variable">
+                                <th scope="row">PR. PERFORMANCE (VAR.)</th>
+                                <td id="fds_perf_variable">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_csg_non_deductible">
+                                <th scope="row">C.S.G. NON DEDUCTIBLE</th>
+                                <td></td>
+                                <td id="fds_csg_non_deductible">
+                                </td>
+                            </tr>
+                            <tr id="row_csg_deductible">
+                                <th scope="row">C.S.G. DEDUCTIBLE</th>
+                                <td></td>
+                                <td id="fds_csg_deductible">
+                                </td>
+                            </tr>
+                            <tr id="row_crds">
+                                <th scope="row">C.R.D.S.</th>
+                                <td></td>
+                                <td id="fds_crds">
+                                </td>
+                            </tr>
+                            <tr id="row_contrib_RAFP">
+                                <th scope="row">COT. SAL. RAFP</th>
+                                <td></td>
+                                <td id="fds_contrib_RAFP">
+                                </td>
+                            </tr>
+
+                            <tr id="row_fond_aero">
+                                <th scope="row">COTISATION aéronautique</th>
+                                <td></td>
+                                <td id="fds_fond_aero">
+                                </td>
+                            </tr>
+                            <tr id="row_fond_militaire">
+                                <th scope="row">COTISATION FPMIL</th>
+                                <td></td>
+                                <td id="fds_fond_militaire">
+                                </td>
+                            </tr>
+                            <tr id="row_transfert_primes_points">
+                                <th scope="row">TRANSFERT PRIMES/POINTS</th>
+                                <td></td>
+                                <td id="fds_transfert_primes_points">
+                                </td>
+                            </tr>
+
+                            <tr id="row_corps_tech">
+                                <th scope="row">Prime corps technique</th>
+                                <td id="fds_corps_tech">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_participation_PSC">
+                                <th scope="row">Participation à la PSC</th>
+                                <td id="fds_participation_PSC">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="table-group-divider">
+                            <tr id="row_total">
+                                <th scope="row">NET A PAYER AVANT IMPÔT SUR LE REVENU</th>
+                                <td id="fds_net_a_payer" colspan="2">
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -279,6 +279,13 @@ function showMontants() {
     document.getElementById("val_fond_aero").innerHTML = texteMontant(calculPrevoyanceAero());
     document.getElementById("val_fond_militaire").innerHTML = texteMontant(calculPrevoyanceMilitaire());
     document.getElementById("val_transfert_primes_points").innerHTML = texteMontant(calculTransfertPrimePoint());
+
+
+    if (eligibleMICM()) {
+        document.getElementById("input-loyer").className = "visible";
+    } else {
+        document.getElementById("input-loyer").className = "invisible d-none";
+    }
 }
 
 function showValeursFDS() {
@@ -657,6 +664,9 @@ function calculICM() {
     return round_inf(ICM / 12, 2)
 }
 
+function eligibleMICM() {
+    return type_logement != 3 && categorie_familiale != 0; // propriétaire ou célibataire ? Pas de MICM
+}
 function calculMICM() {
     if (type_logement == 3) { // propriétaire, pas de MICM
         return 0;

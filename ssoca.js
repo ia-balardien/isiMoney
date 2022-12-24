@@ -124,6 +124,116 @@ function updateData() {
     showValeursFDS();
 }
 
+function setSelectOptionValue(select_id, value) {
+    var elt = document.getElementById(select_id);
+    const options = elt.options;
+
+    for (let i in options) {
+        if (options[i].value == value) {
+            elt.selectedIndex = i;
+            break;
+        }
+    }
+}
+
+function dictionnaireParametre() {
+    return {
+        "ligne_grade_echelon": ligne_grade_echelon,
+        "zone": zone,
+        "nbi": nbi,
+        "corps_tech": corps_tech,
+        "abonnement_dom_travail": abonnement_dom_travail,
+        "categorie_familiale": categorie_familiale,
+        "niveau_poste": niveau_poste,
+        "part_variable": part_variable,
+        "lieu_garnison": lieu_garnison,
+        "type_logement": type_logement,
+        "loyer_mensuel": loyer_mensuel,
+        "compensation_CSG": compensation_CSG,
+        "participation_PSC": participation_PSC,
+    }
+}
+
+function saveParameters() {
+    localStorage.setItem("isiMoney_IA", JSON.stringify(dictionnaireParametre()));
+}
+
+function loadParameters() {
+    let json_dict = localStorage.getItem("isiMoney_IA");
+    if (json_dict) {
+        dict = JSON.parse(json_dict);
+        ligne_grade_echelon = dict["ligne_grade_echelon"];
+        zone = dict["zone"];
+        nbi = dict["nbi"];
+        corps_tech = dict["corps_tech"];
+        abonnement_dom_travail = dict["abonnement_dom_travail"];
+        categorie_familiale = dict["categorie_familiale"];
+        niveau_poste = dict["niveau_poste"];
+        part_variable = dict["part_variable"];
+        lieu_garnison = dict["lieu_garnison"];
+        type_logement = dict["type_logement"];
+        loyer_mensuel = dict["loyer_mensuel"];
+        compensation_CSG = dict["compensation_CSG"];
+        participation_PSC = dict["participation_PSC"];
+
+        setUIParameters();
+        updateData();
+        showMontants()
+        showValeursFDS();
+    }
+}
+
+function resetParameters() {
+    console.log("reset");
+    ligne_grade_echelon = 0;
+    zone = 0;
+    nbi = 0;
+    corps_tech = false;
+    abonnement_dom_travail = 0;
+    categorie_familiale = 0;
+    niveau_poste = 0;
+    part_variable = 0;
+    lieu_garnison = 0; // 0 : IDF, 1: Bruz/Bisca, 2: le reste
+    type_logement = 0; // 0 : Gratuit, 1: SNI, 2: loc privé, 3: proprio
+    loyer_mensuel = 0;
+    compensation_CSG = 0;
+    participation_PSC = false;
+
+    setUIParameters();
+    updateData();
+    showMontants()
+    showValeursFDS();
+}
+
+function setUIParameters() {
+    document.getElementById("grade").selectedIndex = ligne_grade_echelon;
+
+    var nbi_elt = document.getElementById("nbi");
+    nbi_elt.options[nbi_elt.selectedIndex].value = nbi;
+
+    setSelectOptionValue("zone", zone);
+
+    document.getElementById("situation_familiale").selectedIndex = categorie_familiale;
+
+    document.getElementById("corps_tech").checked = corps_tech;
+
+    document.getElementById("domicile_travail").value = abonnement_dom_travail;
+
+    document.getElementById("niveau_poste").selectedIndex = niveau_poste;
+
+    setSelectOptionValue("part_variable", part_variable);
+    setSelectOptionValue("garnison", lieu_garnison);
+    setSelectOptionValue("logement", type_logement);
+
+
+    document.getElementById("loyer").value = loyer_mensuel;
+
+    document.getElementById("compensation_CSG").value = compensation_CSG;
+
+
+    document.getElementById("participation_PSC").checked = participation_PSC;
+}
+
 function updateVue() {
     vue_mois = document.getElementById("vue").selectedIndex;
 

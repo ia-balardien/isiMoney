@@ -19,7 +19,7 @@
     <div class="container-fluid text-left">
         <div class="row align-items-start row-cols-1 row-cols-sm-2">
             <div class="col col-md-5">
-                <div class="row align-items-center mt-3 mt-lg-0">
+                <div class="row align-items-center mt-2 mt-lg-0">
                     <div class="col-lg-8 ">
                         <div class="input-group mb-3">
                             <label class="input-group-text text-wrap" for="grade">Grade et échelon</label>
@@ -159,12 +159,30 @@
                     <label class="form-check-label" for="participation_PSC">Participation à la PSC</label>
                 </div>
 
+                <!-- <div class="row align-items-center">
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" onclick="saveParameters()">Enregistrer</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" onclick="loadParameters()">Recharger</button>
+                    </div>
+                </div> -->
+                <div>
+                    <h6 class="">Paramètres :
+                    </h6>
+                    <div class="d-grid d-md-flex justify-content-md-around gap-2 col mx-auto d-md-block">
+                        <button class="btn btn-primary" type="button" onclick="saveParameters()">Enregistrer</button>
+                        <button class="btn btn-primary" type="button" onclick="loadParameters()">Recharger</button>
+                        <button class="btn btn-primary" type="reset" onclick="resetParameters()">Reset</button>
+                    </div>
+                </div>
                 <!-- </div> -->
+                <hr class="d-sm-none" />
             </div>
 
             <div class="col col-md-7">
 
-                <select class="form-select" id="vue" name="vue" onchange="updateVue()" required>
+                <select class="form-select mt-2" id="vue" name="vue" onchange="updateVue()" required>
                     <option>Solde, primes & cotisations</option>
                     <option>Feuille de solde - Janvier</option>
                     <option>Feuille de solde - Février</option>

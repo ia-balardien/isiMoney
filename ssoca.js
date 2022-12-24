@@ -59,6 +59,8 @@ var vue_mois = 0;
 window.onload = function () {
     remplissageMenuGrades();
 
+    loadParameters();
+
     updateData();
 };
 

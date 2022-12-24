@@ -770,10 +770,11 @@ function totalAssietteCSG() {
 
     var perf_var = calculPerfVariable();
 
-    var base_IAOP_perf_juin = base + perf_var[1];
-    var base_IAOP_perf_dec = base + perf_var[2];
+    var base_IAOP_perf_juin = base_IAOP + perf_var[1];
+    var base_IAOP_perf_dec = base_IAOP + perf_var[2];
 
     var tab = [base, base_IAOP, base_IAOP_perf_juin, base_IAOP_perf_dec];
+
     return tab;
 }
 

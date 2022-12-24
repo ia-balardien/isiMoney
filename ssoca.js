@@ -286,6 +286,12 @@ function showValeursFDS() {
     }
 
     document.getElementById("fds_IAOP").innerHTML = calculIAOP();
+    if (vue_mois == 3 || vue_mois == 6 || vue_mois == 9 || vue_mois == 12) {
+        document.getElementById("row_IAOP").className = "visible";
+    } else {
+        document.getElementById("row_IAOP").className = "invisible d-none";
+    }
+
     document.getElementById("fds_retenue_pc").innerHTML = calculRetenuePension();
     document.getElementById("fds_transfert_primes_points").innerHTML = calculTransfertPrimePoint();
 
@@ -305,7 +311,11 @@ function calculTotal() {
         perf_var = calculPerfVariable()[2];
     }
 
-    tot += perf_var + calculICM() + calculMICM() + compensation_CSG + calculParticipationPSC() + calculIAOP();
+    tot += perf_var + calculICM() + calculMICM() + compensation_CSG + calculParticipationPSC();
+
+    if (vue_mois == 3 || vue_mois == 6 || vue_mois == 9 || vue_mois == 12) {
+        tot += calculIAOP();
+    }
 
     tot -= calculPrevoyanceAero() + calculPrevoyanceMilitaire();
 
@@ -349,7 +359,7 @@ function estHorsEchelle() {
 function calculSolde() {
     var solde = calculIndice() * val_point / 12;
 
-    return round(solde, 2);
+    return round_inf(solde, 2);
 }
 
 function calculNbi() {
@@ -367,7 +377,7 @@ function calculResidence() {
     var solde = calculSolde();
     var val_residence = solde * facteurs_abattement_residence[zone];
 
-    return round(val_residence, 2);
+    return round_inf(val_residence, 2);
 }
 
 function calculCorpsTechnique() {
@@ -445,23 +455,41 @@ function calculPerfVariable() {
     return [perf_dec + perf_juin, perf_juin, perf_dec];
 }
 
+// Nouveau taux, pas encore appliqués
+// const ICM_logement_gratuit = [
+//     [[3_187.42, 3_187.42], [2_592.26, 2_592.26]],
+//     [[1_613.48, 3_468.64], [1_492.01, 3_061.04]],
+//     [[1_360.68, 1_918.21], [1_430.51, 1_991.95]],
+// ];
+
+// const ICM_logement_payant_paris = [
+//     [[5_954.13, 5_954.13], [4_777.49, 4_777.49]],
+//     [[4_049.99, 7_961.61], [3_789.15, 7_134.92]],
+//     [[3_770.52, 5_286.49], [3_553.90, 4_982.81]],
+// ];
+
+// const ICM_logement_payant_province = [
+//     [[5_419.10, 5_419.10], [4_348.19, 4_348.19]],
+//     [[3_686.08, 7_246.21], [3_448.66, 6_493.77]],
+//     [[3_431.70, 4_811.48], [3_234.51, 4_535.09]],
+// ]
 
 const ICM_logement_gratuit = [
-    [[3_187.42, 3_187.42], [2_592.26, 2_592.26]],
-    [[1_613.48, 3_468.64], [1_492.01, 3_061.04]],
-    [[1_360.68, 1_918.21], [1_430.51, 1_991.95]],
+    [[3132.60, 3132.60], [2547.68, 2547.68]],
+    [[1585.73, 3408.98], [1466.35, 3008.39]],
+    [[1337.28, 1885.22], [1405.91, 1957.69]]
 ];
 
 const ICM_logement_payant_paris = [
-    [[5_954.13, 5_954.13], [4_777.49, 4_777.49]],
-    [[4_049.99, 7_961.61], [3_789.15, 7_134.92]],
-    [[3_770.52, 5_286.49], [3_553.90, 4_982.81]],
+    [[5851.73, 5851.73], [4695.32, 4695.32]],
+    [[3980.34, 7824.68], [3723.98, 7012.21]],
+    [[3705.67, 5195.57], [3492.78, 4897.11]],
 ];
 
 const ICM_logement_payant_province = [
-    [[5_419.10, 5_419.10], [4_348.19, 4_348.19]],
-    [[3_686.08, 7_246.21], [3_448.66, 6_493.77]],
-    [[3_431.70, 4_811.48], [3_234.51, 4_535.09]],
+    [[5325.90, 5325.90], [4273.41, 4273.41]],
+    [[3622.68, 7121.58], [3389.35, 6382.09]],
+    [[3372.68, 4728.73], [3178.88, 4457.09]],
 ]
 
 function calculCatFamilialeICM() {
@@ -514,7 +542,7 @@ function calculICM() {
         ICM += table_ICM[i][type_off][taux];
     }
 
-    return round(ICM / 12, 2)
+    return round_inf(ICM / 12, 2)
 }
 
 function calculMICM() {

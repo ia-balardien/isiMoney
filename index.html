@@ -12,11 +12,16 @@
     <title>Simulateur de solde des OCA</title>
     <!-- <link href="css/style.css" rel="stylesheet" /> -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <svg style="display: none" viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'>
+        <symbol id="bi-info-square-fill">
+            <path
+                d='M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z' />
+        </symbol>
+    </svg>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand bg-light">
+    <nav class="navbar navbar-expand bg-light sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand h1 mb-0" href="#">isiMoney</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -65,7 +70,12 @@
                     <label class="form-check-label" for="corps_tech">Corps technique</label>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text text-wrap" for="nbi">NBI</label>
+                    <label class="input-group-text text-wrap" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                        for="nbi">NBI
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label>
                     <select class="form-select" id="nbi" name="nbi" onchange="updateData()" required>
                         <option value="0">0 pts</option>
                         <option value="80">80 pts</option>
@@ -82,12 +92,16 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    <label class="input-group-text text-wrap" for="zone">Zone d'abattement</label>
+                    <label class="input-group-text text-wrap" for="zone" data-bs-toggle="offcanvas"
+                        href="#offcanvasExample">Zone de résidence
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label>
                     <select class="form-select" id="zone" name="zone" onchange="updateData()" required>
                         <option value="0">Zone 1</option>
                         <option value="1">Zone 2</option>
                         <option value="2">Zone 3</option>
-
                     </select>
                 </div>
                 <div class="input-group mb-3">
@@ -175,10 +189,20 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text text-wrap" style="width: 15rem;" for="compensation_CSG">Indemnité
-                        compensatrice de la
-                        hausse de
-                        la CSG
+                    <!-- <label class="input-group-text text-wrap" style="width: 15rem;" for="compensation_CSG">Indemnité
+                        compensatrice de la hausse de la CSG
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label> -->
+                    <label class="input-group-text" for="compensation_CSG" data-bs-toggle="offcanvas"
+                        href="#offcanvasExample">
+                        <div class="text-wrap" style="width: 12rem;">Indemnité
+                            compensatrice de la hausse de la CSG
+                        </div>
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
                     </label>
                     <input class="form-control" type="number" id="compensation_CSG" name="compensation_CSG" min="0"
                         step="any" onchange="updateData()" />
@@ -186,7 +210,14 @@
                 </div>
                 <div class="form-check form-switch mb-3">
                     <input class="form-check-input" type="checkbox" id="participation_PSC" onchange="updateData()">
-                    <label class="form-check-label" for="participation_PSC">Participation à la PSC</label>
+                    <label class="form-check-label" for="participation_PSC">Participation à la PSC
+                    </label>
+                    <i data-bs-toggle="offcanvas" href="#offcanvasExample">
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor" data-bs-toggle="offcanvas"
+                            href="#offcanvasExample">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </i>
                 </div>
 
                 <!-- <div class="row align-items-center">
@@ -501,6 +532,53 @@
         </div>
     </div>
 
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h4 class="offcanvas-title" id="offcanvasExampleLabel">Aide</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                <p> Informations sur les paramètres:
+                </p>
+                <h5>NBI :</h5>
+                <p>
+                    NBI réservée à l'encadrement supérieur.
+                </p>
+                <h5>Zone de résidence :</h5>
+                <p>
+                    Zone de la commune pour le <a href="https://www.service-public.fr/particuliers/vosdroits/F32511">
+                        calcul de l'indemnité de résidence.</a>
+                    Il s'agit du lieu de l'établissement d'exercice de l'agent.
+                    Pour la DGA, cela correspond donc aux zones suivantes :
+                <ul>
+                    <li>Zone 1 : Ile-de-France</li>
+                    <li>Zone 2 : Brest, DGA EV - Istres (à confirmer)</li>
+                    <li>Zone 3 : DGA MI, DGA EM - Biscarosse, DGA EV - Cazaux, DGA TT, DGA TH, DGA TA</li>
+                </ul>
+
+                <!-- <dl>
+                    <dt>Zone 1 :</dt>
+                    <dd>Ile-de-France</dd>
+                    <dt>Zone 2 :</dt>
+                    <dd>Brest, DGA EV - Istres (à confirmer)</dd>
+                    <dt>Zone 3 :</dt>
+                    <dd>DGA MI, DGA EM - Biscarosse, DGA EV - Cazaux, DGA TT, DGA TH, DGA TA</dd>
+                </dl> -->
+                </p>
+                <h5>Indemnité compensatrice de la hausse de la CSG</h5>
+                <p>
+                    Reportez le montant inscrit sur votre fiche de solde
+                    <br />
+                    Indemnité compensatrice de la hausse de 1,7 point de la CSG déductible (6,8% au lieu de 5,1%)
+                    calculée sur la rémunération moyenne perçue en 2017 si payé par le MinArm au 31/12/2017 (sinon
+                    indemnité de 0,76% de la rémunération mensuelle).
+                </p>
+                <h5>Participation à la PSC</h5>
+                <p>Cochez si vous avez demandé la participation de 15€ à la cotisation à une complémentaire santé</p>
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript" src="ssoca.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>

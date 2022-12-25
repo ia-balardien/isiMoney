@@ -493,10 +493,17 @@ function calculResidence() {
         0.01,   // Zone 2
         0.0,    // Zone 3
     ]
-    var solde = calculSolde();
+
+    const min_residence = [
+        51.21,   // Zone 1
+        17.07,   // Zone 2
+        0.0,    // Zone 3
+    ]
+
+    var solde = calculSolde() + calculNbi();
     var val_residence = solde * facteurs_abattement_residence[zone];
 
-    return round_inf(val_residence, 2);
+    return Math.max(round_inf(val_residence, 2), min_residence[zone]);
 }
 
 function calculCorpsTechnique() {

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Simulateur d'AP pour ICT" />
+    <meta name="author" content="IA Balardien" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Simulateur d'AP pour ICT</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <svg style="display: none" viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'>
+        <symbol id="bi-info-square-fill">
+            <path
+                d='M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z' />
+        </symbol>
+    </svg>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand h1 mb-0" href="#">isiMoney</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="../ia/">IA</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">ICD</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="../ict/">ICT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="../ieta/">IETA</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-sm-6 col-12">
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="grade">Grade</label>
+                    <select class="form-select" id="grade" name="grade" onchange="updateGrade()" required>
+                        <option>ICT I</option>
+                        <option>ICT II</option>
+                        <option>ICT III A</option>
+                        <option>ICT III B</option>
+                        <option>ICT III B SUP</option>
+                        <option>ICT III C</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="seum_range">Niveau de seum
+                    </label>
+                    <span class="form-control">
+                        <input type="range" min="0" max="100" value="50" class="form-range my-auto" id="seum_range"
+                            oninput="updateSeumSlider()">
+                    </span>
+                    <input class="form-control" type="number" max="100" min="0" id="seum_text" name="seum_text" min="0"
+                        onchange="updateSeumText()" style="max-width:5rem;" />
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="button" onclick="calculAP()">Calcul de l'AP</button>
+                </div>
+
+                <div class="mt-3">
+                    <div id="block_result" class="d-none">
+                        <span id="resultat_AP"></span>
+                        <a class="btn btn-secondary ms-3" type="button" data-bs-toggle="offcanvas"
+                            href="#offcanvasExample">Plus
+                            d'infos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample"
+            aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h4 class="offcanvas-title" id="offcanvasExampleLabel">Informations</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div>
+                    <p> Il va de soit que ce simulateur d'AP est une blague. Car ici, ca dénonce !
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="random_ap.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+</body>
+
+</html>

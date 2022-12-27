@@ -1,39 +1,61 @@
 
 const val_point = 58.2004;
 const table_correspondance_indice = [
-    // [indice, grade, échelon, officier sup., officier gen., hors echelle, eligible transfert prime-point, grade + échelon]
-    [388, "IA", 1, 0, false, false, false, false, "IA ECH.1 (SLT)"],
-    [449, "IA", 2, 0, false, false, false, false, "IA ECH.2 (LT)"],
-    [485, "IA", 3, 0, false, false, false, true, "IA ECH.3"],
-    [523, "IA", 4, 0, false, false, false, true, "IA ECH.4 (CNE)"],
-    [555, "IA", 5, 0, false, false, false, true, "IA ECH.5"],
-    [605, "IA", 6, 0, false, false, false, true, "IA ECH.6 (CNE)"],
-    [659, "IA", 7, 0, false, false, false, true, "IA ECH.7"],
-    [683, "IA", 8, 0, false, false, false, true, "IA ECH.8"],
-    [712, "IA", 9, 0, false, false, false, true, "IA ECH.9"],
-    [689, "IPA", 1, 0, true, false, false, true, "IPA ECH.1 (CDT)"],
-    [725, "IPA", 2, 0, true, false, false, true, "IPA ECH.2"],
-    [765, "IPA", 3, 0, true, false, false, true, "IPA ECH.3"],
-    [792, "IPA", 4, 0, true, false, false, true, "IPA ECH.4"],
-    [765, "ICA", 1, 0, true, false, false, true, "ICA ECH.1"],
-    [792, "ICA", 2, 0, true, false, false, true, "ICA ECH.2"],
-    [810, "ICA", 3, 0, true, false, false, true, "ICA ECH.3"],
-    [830, "ICA", 4, 0, true, false, false, true, "ICA ECH.4"],
-    [890, "ICA", 5, 1, true, false, true, true, "ICA ECH.5 (HE A1)"],
-    [925, "ICA", 5, 2, true, false, true, true, "ICA ECH.5 (HE A2)"],
-    [972, "ICA", 5, 3, true, false, true, true, "ICA ECH.5 (HE A3)"],
-    [972, "ICA", 6, 1, true, false, true, true, "ICA ECH.6 (HE B1)"],
-    [1013, "ICA", 6, 2, true, false, true, true, "ICA ECH.6 (HE B2)"],
-    [1067, "ICA", 6, 3, true, false, true, true, "ICA ECH.6 (HE B3)"],
-    [1124, "IG2A", "C1", 1, false, true, true, true, "IG2A (HE C1)"],
-    [1148, "IG2A", "C2", 2, false, true, true, true, "IG2A (HE C2)"],
-    [1173, "IG2A", "C3", 3, false, true, true, true, "IG2A (HE C3)"],
-    [1173, "IG1A", "D1", 1, false, true, true, true, "IG1A (HE D1)"],
-    [1226, "IG1A", "D2", 2, false, true, true, true, "IG1A (HE D2)"],
-    [1279, "IG1A", "D3", 3, false, true, true, true, "IG1A (HE D3)"],
-    [1279, "IGHC", "E1", 1, false, true, true, true, "IGHCA (HE E1)"],
-    [1329, "IGHC", "E2", 2, false, true, true, true, "IGHCA (HE E2)"],
-    [1378, "IGCE", "F", 0, false, true, true, true, "IGCEA (HE F)"],
+    // [indice, grade, échelon, ch., officier sup., officier gen., hors echelle, eligible transfert prime-point, grade + échelon]
+    [390, "IETA", 1, 0, false, false, false, false, "IETA ECH.1 (SLT)"],
+    [425, "IETA", 2, 0, false, false, false, false, "IETA ECH.2 (LT)"],
+    [473, "IETA", 3, 0, false, false, false, true, "IETA ECH.3"],
+    [507, "IETA", 4, 0, false, false, false, true, "IETA ECH.4"],
+    [547, "IETA", 5, 0, false, false, false, true, "IETA ECH.5"],
+    [584, "IETA", 6, 0, false, false, false, true, "IETA ECH.6 (CNE)"],
+    [591, "IETA", 7, 0, false, false, false, true, "IETA ECH.7"],
+    [607, "IETA", 8, 0, false, false, false, true, "IETA ECH.8"],
+    [641, "IETA", 9, 0, false, false, false, true, "IETA ECH.9"],
+    [660, "IETA", 10, 0, false, false, false, true, "IETA ECH.10"],
+    [682, "IETA", "EE", 0, false, false, false, true, "IETA EE"],
+    [660, "IPETA", 1, 0, true, false, false, true, "IPETA ECH.1 (CDT)"],
+    [682, "IPETA", 2, 0, true, false, false, true, "IPETA ECH.2"],
+    [711, "IPETA", 3, 0, true, false, false, true, "IPETA ECH.3"],
+    [715, "IPETA", 4, 0, true, false, false, true, "IPETA ECH.4"],
+    [735, "IPETA", 5, 0, true, false, false, true, "IPETA ECH.5"],
+    [783, "IPETA", "EE1", 0, true, false, false, true, "IPETA EE1"],
+    [821, "IPETA", "EE2", 0, true, false, false, true, "IPETA EE2"],
+    [700, "IPETA", 1, 0, true, false, false, true, "IPETA FONCT ECH.1"],
+    [715, "IPETA", 2, 0, true, false, false, true, "IPETA FONCT ECH.2"],
+    [735, "IPETA", 3, 0, true, false, false, true, "IPETA FONCT ECH.3"],
+    [756, "IPETA", 4, 0, true, false, false, true, "IPETA FONCT ECH.4"],
+
+    // [indice, grade, échelon, ch., officier sup., officier gen., hors echelle, eligible transfert prime-point, grade + échelon]
+    [725, "ICETA2", 1, 0, true, false, false, true, "ICETA2 ECH.1"],
+    [743, "ICETA2", 2, 0, true, false, false, true, "ICETA2 ECH.2"],
+    [765, "ICETA2", 3, 0, true, false, false, true, "ICETA2 ECH.3"],
+    [792, "ICETA2", 4, 0, true, false, false, true, "ICETA2 ECH.4"],
+    [810, "ICETA2", 5, 0, true, false, false, true, "ICETA2 ECH.5"],
+    [830, "ICETA2", "EE1", 0, true, false, false, true, "ICETA2 EE1"],
+    [890, "ICETA2", "EE2", 1, true, false, true, true, "ICETA 2 EE2 (HE A1)"],
+    [925, "ICETA2", "EE2", 2, true, false, true, true, "ICETA 2 EE2 (HE A2)"],
+    [972, "ICETA2", "EE2", 3, true, false, true, true, "ICETA 2 EE2 (HE A3)"],
+
+    // [indice, grade, échelon, ch., officier sup., officier gen., hors echelle, eligible transfert prime-point, grade + échelon]
+    [810, "ICETA1", 1, 0, true, false, false, true, "ICETA1 ECH.1"],
+    [830, "ICETA1", 2, 0, true, false, false, true, "ICETA1 ECH.2"],
+    [890, "ICETA1", 3, 1, true, false, true, true, "ICETA ECH.3 (HE A1)"],
+    [925, "ICETA1", 3, 2, true, false, true, true, "ICETA ECH.3 (HE A2)"],
+    [972, "ICETA1", 3, 3, true, false, true, true, "ICETA ECH.3 (HE A3)"],
+    [972, "ICETA1", 4, 1, true, false, true, true, "ICETA ECH.4 (HE B1)"],
+    [1013, "ICETA1", 4, 2, true, false, true, true, "ICETA ECH.4 (HE B2)"],
+    [1067, "ICETA1", 4, 3, true, false, true, true, "ICETA ECH.4 (HE B3)"],
+    [1067, "ICETA1", "ES", 1, true, false, true, true, "ICETA ES (HE B3 BIS 1)"],
+    [1095, "ICETA1", "ES", 2, true, false, true, true, "ICETA ES (HE B3 BIS 2)"],
+    [1124, "ICETA1", "ES", 3, true, false, true, true, "ICETA ES (HE B3 BIS 3)"],
+
+    // [indice, grade, échelon, ch., officier sup., officier gen., hors echelle, eligible transfert prime-point, grade + échelon]
+    [1124, "IGETA2", 1, 1, false, true, true, true, "IGETA 2 (HE C1)"],
+    [1148, "IGETA2", 1, 2, false, true, true, true, "IGETA 2 (HE C2)"],
+    [1173, "IGETA2", 1, 3, false, true, true, true, "IGETA 2 (HE C3)"],
+    [1173, "IGETA1", 1, 1, false, true, true, true, "IGETA 1 (HE D1)"],
+    [1226, "IGETA1", 1, 2, false, true, true, true, "IGETA 1 (HE D2)"],
+    [1279, "IGETA1", 1, 3, false, true, true, true, "IGETA 1 (HE D3)"],
 
 ]
 
@@ -52,6 +74,7 @@ var type_logement = 0; // 0 : Gratuit, 1: SNI, 2: loc privé, 3: proprio
 var loyer_mensuel = 0;
 var compensation_CSG = 0;
 var participation_PSC = false;
+var prime_qualif = 0;
 
 
 var vue_mois = 0;
@@ -121,6 +144,8 @@ function updateData() {
 
     participation_PSC = document.getElementById("participation_PSC").checked;
 
+    prime_qualif = document.getElementById("prime_qualif").selectedIndex;
+
 
     showMontants();
     showValeursFDS();
@@ -153,15 +178,16 @@ function dictionnaireParametre() {
         "loyer_mensuel": loyer_mensuel,
         "compensation_CSG": compensation_CSG,
         "participation_PSC": participation_PSC,
+        "prime_qualif": prime_qualif,
     }
 }
 
 function saveParameters() {
-    localStorage.setItem("isiMoney_IA", JSON.stringify(dictionnaireParametre()));
+    localStorage.setItem("isiMoney_IETA", JSON.stringify(dictionnaireParametre()));
 }
 
 function loadParameters() {
-    let json_dict = localStorage.getItem("isiMoney_IA");
+    let json_dict = localStorage.getItem("isiMoney_IETA");
     if (json_dict) {
         dict = JSON.parse(json_dict);
         ligne_grade_echelon = dict["ligne_grade_echelon"];
@@ -177,6 +203,7 @@ function loadParameters() {
         loyer_mensuel = dict["loyer_mensuel"];
         compensation_CSG = dict["compensation_CSG"];
         participation_PSC = dict["participation_PSC"];
+        prime_qualif = dict["prime_qualif"];
 
         setUIParameters();
         updateData();
@@ -200,6 +227,7 @@ function resetParameters() {
     loyer_mensuel = 0;
     compensation_CSG = 0;
     participation_PSC = false;
+    prime_qualif = 0;
 
     setUIParameters();
     updateData();
@@ -222,6 +250,8 @@ function setUIParameters() {
     document.getElementById("domicile_travail").value = abonnement_dom_travail;
 
     document.getElementById("niveau_poste").selectedIndex = niveau_poste;
+
+    document.getElementById("prime_qualif").selectedIndex = prime_qualif;
 
     setSelectOptionValue("part_variable", part_variable);
     setSelectOptionValue("garnison", lieu_garnison);
@@ -250,6 +280,7 @@ function updateVue() {
 }
 
 function showMontants() {
+    console.log("Show");
     document.getElementById("val_indice").value = calculIndice();
 
     document.getElementById("val_solde").innerHTML = texteMontant(round(calculSolde(), 2));
@@ -259,7 +290,6 @@ function showMontants() {
     document.getElementById("val_corps_tech").innerHTML = texteMontant(round(calculCorpsTechnique(), 2));
     document.getElementById("val_domicile_travail").innerHTML = texteMontant(round(calculRemboursementDomTravail(), 2));
 
-    document.getElementById("val_perf_fixe").innerHTML = texteMontant(round(calculPerfFixe(), 2));
     document.getElementById("val_perf_variable").innerHTML = textePerfVariable();
 
     document.getElementById("val_icm").innerHTML = texteMontant(round(calculICM(), 2));
@@ -279,6 +309,9 @@ function showMontants() {
     document.getElementById("val_fond_aero").innerHTML = texteMontant(calculPrevoyanceAero());
     document.getElementById("val_fond_militaire").innerHTML = texteMontant(calculPrevoyanceMilitaire());
     document.getElementById("val_transfert_primes_points").innerHTML = texteMontant(calculTransfertPrimePoint());
+
+    console.log(calculPrimeQualif());
+    document.getElementById("val_prime_qualif").innerHTML = texteMontant(calculPrimeQualif());
 
 
     if (eligibleMICM()) {
@@ -338,8 +371,6 @@ function showValeursFDS() {
     }
     document.getElementById("fds_domicile_travail").innerHTML = rbt_dom_trav;
 
-
-    document.getElementById("fds_perf_fixe").innerHTML = calculPerfFixe();
 
     var fds_perf_elt = document.getElementById("fds_perf_variable");
     var fds_perf_row = document.getElementById("row_perf_variable");
@@ -421,7 +452,7 @@ function showValeursFDS() {
 function calculTotal() {
     var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
 
-    tot += calculRemboursementDomTravail() + calculPerfFixe();
+    tot += calculRemboursementDomTravail();
 
     var perf_var = 0;
     if (vue_mois == 6) { // Juin
@@ -557,22 +588,29 @@ function calculRemboursementDomTravail() {
     return round(abonnement_dom_travail / 2, 2)
 }
 
-function calculPerfFixe() {
-    const val_part_fixe = [
-        21_710,
-        20_040,
-        18_370,
-        17_118,
-    ]
-    return round(val_part_fixe[niveau_poste] / 12, 2)
+function calculPrimeQualif() {
+    var taux = 0;
+    var indice_max = 0;
+
+    if (prime_qualif == 1) {
+        taux = 16.0 / 100;
+        indice_max = table_correspondance_indice[10][0]; // indice max prime en compte : indice IETA EE
+    } else if (prime_qualif == 2) {
+        taux = 28.0 / 100;
+        indice_max = table_correspondance_indice[35][0]; // indice max prime en compte : indice ICETA 1 ECH.3 (HE A3)
+    }
+
+
+    return taux * Math.min(calculSolde(), (indice_max * val_point / 12));
 }
 
 function calculPerfVariable() {
     const val_part_variable_max = [
-        22_664,
-        19_086,
-        16_700,
-        13_718,
+        5_200,
+        5_700,
+        6_700,
+        8_200,
+        8_700,
     ]
     var perf_var = val_part_variable_max[niveau_poste] * part_variable;
     var perf_dec = round(5 * perf_var / 12, 2)
@@ -780,7 +818,7 @@ function calculTransfertPrimePoint() {
 
 
 function totalAssietteCSG() {
-    var base = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculCorpsTechnique() + calculMICM() + compensation_CSG + calculParticipationPSC() - calculTransfertPrimePoint();
+    var base = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculPrimeQualif() + calculCorpsTechnique() + calculMICM() + compensation_CSG + calculParticipationPSC() - calculTransfertPrimePoint();
 
 
     var base_IAOP = base + calculIAOP();
@@ -806,7 +844,7 @@ function totalAssietteCRDS() {
 
 function calculCotisationRAFP() {
     var v1 = 0.20 * calculSolde();
-    var v_base = calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculIAOP() + calculCorpsTechnique() + calculMICM() + compensation_CSG + calculParticipationPSC();
+    var v_base = calculResidence() + calculSupplementFamilial() + calculPrimeQualif() + calculIAOP() + calculCorpsTechnique() + calculMICM() + compensation_CSG + calculParticipationPSC();
 
     var v2_tab = calculPerfVariable();
     v2_tab[0] = 0.0;

@@ -46,13 +46,9 @@
         </div>
     </nav>
 
-    <div class="container-fluid text-left">
-        <p>
-            A venir ...
-        </p>
-    </div>
 
-    <div class="container-fluid text-left d-none">
+
+    <div class="container-fluid text-left">
         <div class="row align-items-start row-cols-1 row-cols-sm-2">
             <div class="col col-md-5">
                 <div class="row align-items-center mt-2 mt-lg-0">
@@ -96,7 +92,15 @@
                         <option value="200">200 pts</option>
                     </select>
                 </div>
-
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="prime_qualif">Prime de qualification
+                    </label>
+                    <select class="form-select" id="prime_qualif" name="prime_qualif" onchange="updateData()" required>
+                        <option>Aucune</option>
+                        <option>EMS 1</option>
+                        <option>EMS 2</option>
+                    </select>
+                </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text text-wrap" for="zone" data-bs-toggle="offcanvas"
                         href="#offcanvasExample">Zone de résidence
@@ -170,6 +174,7 @@
                         <option>Niveau 2</option>
                         <option>Niveau 3</option>
                         <option>Niveau 4</option>
+                        <option>Hors Niveau</option>
                     </select>
                 </div>
                 <div class="input-group mb-3">
@@ -305,8 +310,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Prime PERF fixe</th>
-                                <td id="val_perf_fixe">
+                                <th scope="row">Prime Qualif</th>
+                                <td id="val_prime_qualif">
                                 </td>
                             </tr>
                             <tr>
@@ -453,12 +458,6 @@
                             <tr id="row_compensatrice_CSG">
                                 <th scope="row">IND. COMPENSATRICE CSG</th>
                                 <td id="fds_compensatrice_CSG">
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr id="row_perf_fixe">
-                                <th scope="row">PR. PERFORMANCE (FONCT.)</th>
-                                <td id="fds_perf_fixe">
                                 </td>
                                 <td></td>
                             </tr>

@@ -81,8 +81,6 @@ const phrases_AP = [
 function calculAP() {
     const n_phrases = phrases_AP[ligne_grade_echelon].length;
     var index = Math.floor(n_phrases * seum / 101);
-    console.log(index);
     document.getElementById("resultat_AP").innerHTML = phrases_AP[ligne_grade_echelon][index];
     document.getElementById("block_result").className = "visible";
-
 }

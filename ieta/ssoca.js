@@ -213,7 +213,6 @@ function loadParameters() {
 }
 
 function resetParameters() {
-    console.log("reset");
     ligne_grade_echelon = 0;
     zone = 0;
     nbi = 0;
@@ -280,7 +279,6 @@ function updateVue() {
 }
 
 function showMontants() {
-    console.log("Show");
     document.getElementById("val_indice").value = calculIndice();
 
     document.getElementById("val_solde").innerHTML = texteMontant(round(calculSolde(), 2));

@@ -186,7 +186,6 @@ function loadParameters() {
 }
 
 function resetParameters() {
-    console.log("reset");
     ligne_grade_echelon = 0;
     zone = 0;
     nbi = 0;

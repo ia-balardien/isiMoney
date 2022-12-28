@@ -43,7 +43,7 @@ const phrases_AP = [
     [
         "Une A-quoi ?",
         "Vous êtes jeune, est-ce que vous avez vraiment besoin d'une augmentation ?",
-        "Vous venez d'arrivez, faites vos preuves. AP réduite pour vous encourager."
+        "Vous venez d'arriver, faites vos preuves. AP réduite pour vous encourager."
     ],
     // ICT II
     [
@@ -54,7 +54,7 @@ const phrases_AP = [
     ],
     // ICT III A
     [
-        "Bien essayé, mais vous n'aurez pas d'AP cette année. Rentez votre chance l'année prochaine. Vous ne serez plus là l'an prochain ?",
+        "Bien essayé, mais vous n'aurez pas d'AP cette année. Retentez votre chance l'année prochaine. Vous ne serez plus là l'an prochain ?",
         "Déso, les Ingénieurs de l'armement ont pris tout l'argent affecté au Minarm pour revaloriser les salaires des agents de la DGA. Vous aurez donc une AP de 22€"
     ],
     // ICT III B

@@ -310,7 +310,6 @@ function showMontants() {
     document.getElementById("val_fond_militaire").innerHTML = texteMontant(calculPrevoyanceMilitaire());
     document.getElementById("val_transfert_primes_points").innerHTML = texteMontant(calculTransfertPrimePoint());
 
-    console.log(calculPrimeQualif());
     document.getElementById("val_prime_qualif").innerHTML = texteMontant(calculPrimeQualif());
 
 
@@ -362,6 +361,12 @@ function showValeursFDS() {
     document.getElementById("fds_fond_aero").innerHTML = calculPrevoyanceAero();
     document.getElementById("fds_fond_militaire").innerHTML = calculPrevoyanceMilitaire();
 
+    if (prime_qualif != 0) {
+        document.getElementById("row_prime_qualif").className = "visible";
+    } else {
+        document.getElementById("row_prime_qualif").className = "invisible d-none";
+    }
+    document.getElementById("fds_prime_qualif").innerHTML = calculPrimeQualif();
 
     var rbt_dom_trav = calculRemboursementDomTravail();
     if (rbt_dom_trav == 0) {
@@ -450,7 +455,7 @@ function showValeursFDS() {
 }
 
 function calculTotal() {
-    var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
+    var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique() + calculPrimeQualif();
 
     tot += calculRemboursementDomTravail();
 
@@ -600,17 +605,16 @@ function calculPrimeQualif() {
         indice_max = table_correspondance_indice[35][0]; // indice max prime en compte : indice ICETA 1 ECH.3 (HE A3)
     }
 
-
-    return taux * Math.min(calculSolde(), (indice_max * val_point / 12));
+    return round(taux * Math.min(calculSolde(), (indice_max * val_point / 12)), 2);
 }
 
 function calculPerfVariable() {
     const val_part_variable_max = [
-        5_200,
-        5_700,
-        6_700,
-        8_200,
         8_700,
+        8_200,
+        6_700,
+        5_700,
+        5_200,
     ]
     var perf_var = val_part_variable_max[niveau_poste] * part_variable;
     var perf_dec = round(5 * perf_var / 12, 2)

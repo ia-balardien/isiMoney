@@ -61,20 +61,18 @@ const phrases_AP = [
     [
         "Bonne nouvelle, vous allez avoir une AP. Mauvaise nouvelle, elle sera de 15€ bruts",
         "Malheureusement, ICT III B rime rarement avec AP B.",
-        "Bravo, une AP bonifié. Fun fact : en 2022, cela correspond à 2% de l'augmentation d'un Ingénieur de l'armement. "
+        "Bravo, une AP bonifiée. Fun fact : en 2022, cela correspond à 2% de l'augmentation d'un Ingénieur de l'armement. "
     ],
     // ICT III B SUP
     [
         "ICT III B SUP, a priori pas besoin d'augmentation",
         "Depuis le temps que vous êtes là, est-ce que vous pensez vraiment que l'institution à quelque chose à faire de vous",
         "Bonne nouvelle, vous avez eu une AP bonifiée. Mais comme vous êtes III B SUP, vous êtes donc manager et cela en fait une de moins pour votre équipe. Remettez à 0 votre taux de seum et partagez le sur vos subordonnés."
-        // "III B SUP, mais vous êtes donc manager ? Partagez donc, le sort de vos subordonnées."
     ],
     // ICT III C
     [
         "ICT III C, a priori pas besoin d'augmentation",
         "Vous avez beaucoup trop de seum pour un ICT III C. Est-ce bien raisonnable ?"
-        // "Si vous êtes ICT III C, peut-être que vous êtes une partie du problème ?"
     ]
 ]
 

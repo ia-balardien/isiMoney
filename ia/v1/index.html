@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Simulateur de solde pour les IA" />
+    <meta name="author" content="IA Balardien" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <meta name="viewport"
+        content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" /> -->
+    <title>isiMoney - IA</title>
+    <!-- <link href="css/style.css" rel="stylesheet" /> -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <svg style="display: none" viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'>
+        <symbol id="bi-info-square-fill">
+            <path
+                d='M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z' />
+        </symbol>
+    </svg>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand h1 mb-0" href="https://ia-balardien.github.io/isiMoney/">isiMoney</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="../ia/">IA</a>
+                </li>
+                <!-- <li class="nav-item"> -->
+                <!-- <a class="nav-link" aria-current="page" href="#">ICD</a> -->
+                <!-- </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="../ict/">ICT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="../ieta/">IETA</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid text-left">
+        <div class="row align-items-start row-cols-1 row-cols-sm-2">
+            <div class="col col-md-5">
+                <div class="row align-items-center mt-2 mt-lg-0">
+                    <div class="col-lg-8 ">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text text-wrap" for="grade">Grade et échelon</label>
+                            <select class="form-select" id="grade" name="grade" onchange="updateData()" required>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-floating mb-3">
+                            <input type="number" readonly class="form-control-plaintext" id="val_indice" placeholder=""
+                                value="">
+                            <label for="val_indice">Indice de solde</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="corps_tech" onchange="updateData()">
+                    <label class="form-check-label" for="corps_tech">Corps technique</label>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                        for="nbi">NBI
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label>
+                    <select class="form-select" id="nbi" name="nbi" onchange="updateData()" required>
+                        <option value="0">0 pts</option>
+                        <option value="80">80 pts</option>
+                        <option value="90">90 pts</option>
+                        <option value="100">100 pts</option>
+                        <option value="110">110 pts</option>
+                        <option value="120">120 pts</option>
+                        <option value="140">140 pts</option>
+                        <option value="160">160 pts</option>
+                        <option value="170">170 pts</option>
+                        <option value="180">180 pts</option>
+                        <option value="200">200 pts</option>
+                    </select>
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="zone" data-bs-toggle="offcanvas"
+                        href="#offcanvasExample">Zone de résidence
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label>
+                    <select class="form-select" id="zone" name="zone" onchange="updateData()" required>
+                        <option value="0">Zone 1</option>
+                        <option value="1">Zone 2</option>
+                        <option value="2">Zone 3</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="situation_familiale">Situation familiale</label>
+                    <select class="form-select" id="situation_familiale" name="situation_familiale"
+                        onchange="updateData()" required>
+                        <option>Célibataire sans enfant </option>
+                        <option>Marié/Pacsé</option>
+                        <option>1 enfant </option>
+                        <option>2 enfants </option>
+                        <option>3 enfants </option>
+                        <option>4 enfants </option>
+                        <option>5 enfants </option>
+                        <option>6 enfants </option>
+                        <option>7 enfants </option>
+                        <option>8 enfants </option>
+                        <option>9 enfants </option>
+                        <option>10 enfants</option>
+
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="garnison">Lieu de garnison</label>
+                    <select class="form-select" id="garnison" name="garnison" onchange="updateData()" required>
+                        <option value="0">Ile-de-France</option>
+                        <option value="1">Bruz ou Biscarosse</option>
+                        <option value="2">Province - Autre</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="logement">Type de logement</label>
+                    <select class="form-select" id="logement" name="logement" onchange="updateData()" required>
+                        <option value="0">Logement gratuit</option>
+                        <option value="1">Locataire SNI</option>
+                        <option value="2">Locataire privé</option>
+                        <option value="3">Propriétaire</option>
+                    </select>
+                </div>
+                <div id="input-loyer">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text text-wrap" for="loyer">Loyer mensuel </label>
+                        <input class="form-control" type="number" id="loyer" name="loyer" min="0"
+                            onchange="updateData()" />
+                        <span class="input-group-text">€</span>
+                    </div>
+                </div>
+                <div id="input-date-emmenagement">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text text-wrap" for="date-emmenagement">Date d'emménagement</label>
+                        <input class="form-control" type="date" id="date-emmenagement" name="date-emmenagement" min="0"
+                            onchange="updateData()" />
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="domicile_travail">Abonnement domicile/travail</label>
+                    <input class="form-control" type="number" id="domicile_travail" name="domicile_travail" min="0"
+                        onchange="updateData()" />
+                    <span class="input-group-text">€</span>
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="niveau_poste">Niveau de poste (prime
+                        PERF)</label>
+                    <select class="form-select" id="niveau_poste" name="niveau_poste" onchange="updateData()" required>
+                        <option>Niveau 1</option>
+                        <option>Niveau 2</option>
+                        <option>Niveau 3</option>
+                        <option>Niveau 4</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="part_variable">Part variable</label>
+                    <select class="form-select" id="part_variable" name="part_variable" onchange="updateData()"
+                        required>
+                        <option value="0">Pas de part variable</option>
+                        <option value="0.10">10%</option>
+                        <option value="0.20">20%</option>
+                        <option value="0.30">30%</option>
+                        <option value="0.40">40%</option>
+                        <option value="0.50">50%</option>
+                        <option value="0.55">55%</option>
+                        <option value="0.60">60%</option>
+                        <option value="0.65">65%</option>
+                        <option value="0.70">70%</option>
+                        <option value="0.75">75%</option>
+                        <option value="0.80">80%</option>
+                        <option value="0.85">85%</option>
+                        <option value="0.90">90%</option>
+                        <option value="0.95">95%</option>
+                        <option value="1.00">100%</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <!-- <label class="input-group-text text-wrap" style="width: 15rem;" for="compensation_CSG">Indemnité
+                        compensatrice de la hausse de la CSG
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label> -->
+                    <label class="input-group-text" for="compensation_CSG" data-bs-toggle="offcanvas"
+                        href="#offcanvasExample">
+                        <div class="text-wrap" style="width: 12rem;">Indemnité
+                            compensatrice de la hausse de la CSG
+                        </div>
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label>
+                    <input class="form-control" type="number" id="compensation_CSG" name="compensation_CSG" min="0"
+                        step="any" onchange="updateData()" />
+                    <span class="input-group-text">€</span>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="participation_PSC" onchange="updateData()">
+                    <label class="form-check-label" for="participation_PSC">Participation à la PSC
+                    </label>
+                    <i data-bs-toggle="offcanvas" href="#offcanvasExample">
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor" data-bs-toggle="offcanvas"
+                            href="#offcanvasExample">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </i>
+                </div>
+
+                <!-- <div class="row align-items-center">
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" onclick="saveParameters()">Enregistrer</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" onclick="loadParameters()">Recharger</button>
+                    </div>
+                </div> -->
+                <div>
+                    <h6 class="">Paramètres :
+                    </h6>
+                    <div class="d-grid d-md-flex justify-content-md-around gap-2 col mx-auto d-md-block">
+                        <button class="btn btn-primary" type="button" onclick="saveParameters()">Enregistrer</button>
+                        <button class="btn btn-primary" type="button" onclick="loadParameters()">Recharger</button>
+                        <button class="btn btn-primary" type="reset" onclick="resetParameters()">Reset</button>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <hr class="d-sm-none" />
+            </div>
+
+            <div class="col col-md-7">
+
+                <select class="form-select mt-2" id="vue" name="vue" onchange="updateVue()" required>
+                    <option>Solde, primes & cotisations</option>
+                    <option>Feuille de solde - Janvier</option>
+                    <option>Feuille de solde - Février</option>
+                    <option>Feuille de solde - Mars</option>
+                    <option>Feuille de solde - Avril</option>
+                    <option>Feuille de solde - Mai</option>
+                    <option>Feuille de solde - Juin</option>
+                    <option>Feuille de solde - Juillet</option>
+                    <option>Feuille de solde - Août</option>
+                    <option>Feuille de solde - Septembre</option>
+                    <option>Feuille de solde - Octobre</option>
+                    <option>Feuille de solde - Novembre</option>
+                    <option>Feuille de solde - Décembre</option>
+                </select>
+                <div id="montants">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Element</th>
+                                <th scope="col">Montant</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr>
+                                <th scope="row">Solde</th>
+                                <td id="val_solde">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">NBI</th>
+                                <td id="val_nbi">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Indemnité de résidence</th>
+                                <td id="val_residence">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Supplément familial (SFS/SFT)</th>
+                                <td id="val_supplement_familial">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Prime corps technique</th>
+                                <td id="val_corps_tech">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Remboursement domicile/travail</th>
+                                <td id="val_domicile_travail">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Prime PERF fixe</th>
+                                <td id="val_perf_fixe">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Prime PERF variable</th>
+                                <td id="val_perf_variable">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ICM</th>
+                                <td id="val_icm">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">MICM</th>
+                                <td id="val_micm">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">IAOP (TAOPC)</th>
+                                <td id="val_IAOP">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Ind. Compensatrice CSG</th>
+                                <td id="val_compensatrice_CSG">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Participation à la PSC</th>
+                                <td id="val_participation_PSC">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Retenue pour pension</th>
+                                <td id="val_retenue_pc">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">CSG non déductible</th>
+                                <td id="val_csg_non_deductible">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">CSG déductible</th>
+                                <td id="val_csg_deductible">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">CRDS</th>
+                                <td id="val_crds">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cotisation salariale RAFP</th>
+                                <td id="val_contrib_RAFP">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fond de prévoyance aéronautique</th>
+                                <td id="val_fond_aero">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fond de prévoyance militaire</th>
+                                <td id="val_fond_militaire">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Transfert primes/points</th>
+                                <td id="val_transfert_primes_points">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="fds" class="invisible d-none">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Eléments</th>
+                                <th scope="col">A payer</th>
+                                <th scope="col">A déduire</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr id="row_solde">
+                                <th scope="row">TRAIT. BRUT / SOLDE BRUT</th>
+                                <td id="fds_solde">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_nbi">
+                                <th scope="row">NBI</th>
+                                <td id="fds_nbi">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_retenue_pc">
+                                <th scope="row">RETENUE PC</th>
+                                <td></td>
+                                <td id="fds_retenue_pc">
+                                </td>
+                            </tr>
+                            <tr id="row_residence">
+                                <th scope="row">INDEMNITE DE RESIDENCE</th>
+                                <td id="fds_residence">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_supplement_familial">
+                                <th scope="row">Supplément familial (SFS/SFT)</th>
+                                <td id="fds_supplement_familial">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_domicile_travail">
+                                <th scope="row">REMBT DOMICILE/TRAVAIL</th>
+                                <td id="fds_domicile_travail">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_icm">
+                                <th scope="row">IND. CHARGES MILITAIRE</th>
+                                <td id="fds_icm">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_micm">
+                                <th scope="row">MAJ. IND. CHARGES MILITAIRE</th>
+                                <td id="fds_micm">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_IAOP">
+                                <th scope="row">IND.ACT.OBLIG.PROF.</th>
+                                <td id="fds_IAOP">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_compensatrice_CSG">
+                                <th scope="row">IND. COMPENSATRICE CSG</th>
+                                <td id="fds_compensatrice_CSG">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_perf_fixe">
+                                <th scope="row">PR. PERFORMANCE (FONCT.)</th>
+                                <td id="fds_perf_fixe">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_perf_variable">
+                                <th scope="row">PR. PERFORMANCE (VAR.)</th>
+                                <td id="fds_perf_variable">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_csg_non_deductible">
+                                <th scope="row">C.S.G. NON DEDUCTIBLE</th>
+                                <td></td>
+                                <td id="fds_csg_non_deductible">
+                                </td>
+                            </tr>
+                            <tr id="row_csg_deductible">
+                                <th scope="row">C.S.G. DEDUCTIBLE</th>
+                                <td></td>
+                                <td id="fds_csg_deductible">
+                                </td>
+                            </tr>
+                            <tr id="row_crds">
+                                <th scope="row">C.R.D.S.</th>
+                                <td></td>
+                                <td id="fds_crds">
+                                </td>
+                            </tr>
+                            <tr id="row_contrib_RAFP">
+                                <th scope="row">COT. SAL. RAFP</th>
+                                <td></td>
+                                <td id="fds_contrib_RAFP">
+                                </td>
+                            </tr>
+
+                            <tr id="row_fond_aero">
+                                <th scope="row">COTISATION aéronautique</th>
+                                <td></td>
+                                <td id="fds_fond_aero">
+                                </td>
+                            </tr>
+                            <tr id="row_fond_militaire">
+                                <th scope="row">COTISATION FPMIL</th>
+                                <td></td>
+                                <td id="fds_fond_militaire">
+                                </td>
+                            </tr>
+                            <tr id="row_transfert_primes_points">
+                                <th scope="row">TRANSFERT PRIMES/POINTS</th>
+                                <td></td>
+                                <td id="fds_transfert_primes_points">
+                                </td>
+                            </tr>
+
+                            <tr id="row_corps_tech">
+                                <th scope="row">Prime corps technique</th>
+                                <td id="fds_corps_tech">
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr id="row_participation_PSC">
+                                <th scope="row">Participation à la PSC</th>
+                                <td id="fds_participation_PSC">
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="table-group-divider">
+                            <tr id="row_total">
+                                <th scope="row">NET A PAYER AVANT IMPÔT SUR LE REVENU</th>
+                                <td id="fds_net_a_payer" colspan="2" style="text-align:center;">
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h4 class="offcanvas-title" id="offcanvasExampleLabel">Aide</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                <p> Informations sur les paramètres:
+                </p>
+                <h5>NBI :</h5>
+                <p>
+                    NBI réservée à l'encadrement supérieur.
+                </p>
+                <h5>Zone de résidence :</h5>
+                <p>
+                    Zone de la commune pour le <a href="https://www.service-public.fr/particuliers/vosdroits/F32511">
+                        calcul de l'indemnité de résidence.</a>
+                    Il s'agit du lieu de l'établissement d'exercice de l'agent.
+                    Pour la DGA, cela correspond donc aux zones suivantes :
+                <ul>
+                    <li>Zone 1 : Ile-de-France</li>
+                    <li>Zone 2 : Brest, DGA EV - Istres (à confirmer)</li>
+                    <li>Zone 3 : DGA MI, DGA EM - Biscarosse, DGA EV - Cazaux, DGA TT, DGA TH, DGA TA</li>
+                </ul>
+
+                </p>
+                <h5>Indemnité compensatrice de la hausse de la CSG</h5>
+                <p>
+                    Reportez le montant inscrit sur votre fiche de solde
+                    <br />
+                    Indemnité compensatrice de la hausse de 1,7 point de la CSG déductible (6,8% au lieu de 5,1%)
+                    calculée sur la rémunération moyenne perçue en 2017 si payé par le MinArm au 31/12/2017 (sinon
+                    indemnité de 0,76% de la rémunération mensuelle).
+                </p>
+                <h5>Participation à la PSC</h5>
+                <p>Cochez si vous avez demandé la participation de 15€ à la cotisation à une complémentaire santé</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="ssoca.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+</body>
+
+</html>

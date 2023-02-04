@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Simulateur de solde pour les IA" />
+    <meta name="author" content="IA Balardien" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <meta name="viewport"
+        content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" /> -->
+    <title>isiMoney - IA</title>
+    <!-- <link href="css/style.css" rel="stylesheet" /> -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <svg style="display: none" viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'>
+        <symbol id="bi-info-square-fill">
+            <path
+                d='M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z' />
+        </symbol>
+    </svg>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand h1 mb-0" href="https://ia-balardien.github.io/isiMoney/">isiMoney</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="../ia/">IA</a>
+                </li>
+                <!-- <li class="nav-item"> -->
+                <!-- <a class="nav-link" aria-current="page" href="#">ICD</a> -->
+                <!-- </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="../ict/">ICT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="../ieta/">IETA</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid text-left">
+        <h1>Tous les simulateurs IA</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Dates de validité</th>
+                    <th scope="col">Changement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="transform: rotate(0);">
+                    <td><a href="../current/" class="stretched-link text-decoration-none"></a>1/01/2023 - Aujourd'hui
+                        </a></td>
+                    <td>Évolution des taux d'ICM</td>
+                </tr>
+                <tr style="transform: rotate(0);">
+                    <td><a href="../v1/" class="stretched-link text-decoration-none"></a>1/03/2022 - 31/12/2022</a></td>
+                    <td>Version initiale. Prise en compte de la prime PERF</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -59,7 +59,14 @@ const table_correspondance_indice = [
 
 ]
 
+const formatDate = (date) => {
+    var day = ("0" + date.getDate()).slice(-2);
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
 
+    var today = date.getFullYear() + "-" + (month) + "-" + (day);
+
+    return today
+}
 
 var ligne_grade_echelon = 0;
 var zone = 0;
@@ -72,6 +79,7 @@ var part_variable = 0;
 var lieu_garnison = 0; // 0 : IDF, 1: Bruz/Bisca, 2: le reste
 var type_logement = 0; // 0 : Gratuit, 1: SNI, 2: loc privé, 3: proprio
 var loyer_mensuel = 0;
+var date_emmenagement = formatDate(new Date());
 var compensation_CSG = 0;
 var participation_PSC = false;
 var prime_qualif = 0;
@@ -138,6 +146,7 @@ function updateData() {
     type_logement = logement_elt.options[logement_elt.selectedIndex].value;
 
     loyer_mensuel = document.getElementById("loyer").value;
+    date_emmenagement = document.getElementById("date-emmenagement").value;
 
     compensation_CSG = parseFloat("0" + document.getElementById("compensation_CSG").value);
 
@@ -176,6 +185,7 @@ function dictionnaireParametre() {
         "lieu_garnison": lieu_garnison,
         "type_logement": type_logement,
         "loyer_mensuel": loyer_mensuel,
+        "date_emmenagement": date_emmenagement,
         "compensation_CSG": compensation_CSG,
         "participation_PSC": participation_PSC,
         "prime_qualif": prime_qualif,
@@ -201,6 +211,7 @@ function loadParameters() {
         lieu_garnison = dict["lieu_garnison"];
         type_logement = dict["type_logement"];
         loyer_mensuel = dict["loyer_mensuel"];
+        date_emmenagement = dict["date_emmenagement"];
         compensation_CSG = dict["compensation_CSG"];
         participation_PSC = dict["participation_PSC"];
         prime_qualif = dict["prime_qualif"];
@@ -224,6 +235,7 @@ function resetParameters() {
     lieu_garnison = 0; // 0 : IDF, 1: Bruz/Bisca, 2: le reste
     type_logement = 0; // 0 : Gratuit, 1: SNI, 2: loc privé, 3: proprio
     loyer_mensuel = 0;
+    date_emmenagement = formatDate(new Date());
     compensation_CSG = 0;
     participation_PSC = false;
     prime_qualif = 0;
@@ -258,6 +270,7 @@ function setUIParameters() {
 
 
     document.getElementById("loyer").value = loyer_mensuel;
+    document.getElementById("date-emmenagement").value = date_emmenagement;
 
     document.getElementById("compensation_CSG").value = compensation_CSG;
 
@@ -313,8 +326,10 @@ function showMontants() {
 
     if (eligibleMICM()) {
         document.getElementById("input-loyer").className = "visible";
+        document.getElementById("input-date-emmenagement").className = "visible";
     } else {
         document.getElementById("input-loyer").className = "invisible d-none";
+        document.getElementById("input-date-emmenagement").className = "invisible d-none";
     }
 }
 
@@ -714,6 +729,31 @@ function calculICM() {
 function eligibleMICM() {
     return type_logement != 3 && categorie_familiale != 0; // propriétaire ou célibataire ? Pas de MICM
 }
+
+Date.isLeapYear = function (year) {
+    return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
+};
+
+Date.getDaysInMonth = function (year, month) {
+    return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+};
+
+Date.prototype.isLeapYear = function () {
+    return Date.isLeapYear(this.getFullYear());
+};
+
+Date.prototype.getDaysInMonth = function () {
+    return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+};
+
+Date.prototype.addMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() + value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};
+
 function calculMICM() {
     if (type_logement == 3) { // propriétaire, pas de MICM
         return 0;
@@ -734,6 +774,28 @@ function calculMICM() {
     } else {
         var L = Math.min(Math.max(loyer_mensuel, P0), P1);
         MICM = (K + K1 * (P1 - L) / (P1 - P0)) * (L - P0);
+    }
+
+    // application de la dégressivité
+    const date_emm = new Date(date_emmenagement);
+    const now = new Date();
+
+    var palier = new Date(date_emmenagement);
+    palier.addMonths(12 * 7);
+
+    var i = 0;
+    for (; i <= 4; i++) {
+        if (now <= palier) {
+            break;
+        }
+        palier.addMonths(12);
+    }
+
+    if (i >= 5) {
+        // plus droit à la MICM
+        MICM = 0;
+    } else {
+        MICM = MICM * (1.0 - i / 4.0);
     }
 
     return round(MICM, 2);

@@ -331,6 +331,11 @@ function showMontants() {
         document.getElementById("input-loyer").className = "invisible d-none";
         document.getElementById("input-date-emmenagement").className = "invisible d-none";
     }
+
+
+    document.getElementById("val_total_annee").innerHTML = texteMontant(calculTotalAnnée());
+    document.getElementById("val_total_imposable_annee").innerHTML = texteMontant(totalImposableAnnée());
+
 }
 
 function showValeursFDS() {
@@ -464,6 +469,7 @@ function showValeursFDS() {
     document.getElementById("fds_transfert_primes_points").innerHTML = calculTransfertPrimePoint();
 
     document.getElementById("fds_net_a_payer").innerHTML = round(calculTotal(), 2);
+    document.getElementById("fds_imposable").innerHTML = round(totalImposable(), 2);
 
 }
 
@@ -498,6 +504,33 @@ function calculTotal() {
         cotisation = calculCSGNonDeductible()[0] + calculCSGDeductible()[0] + calculCRDS()[0] + calculCotisationRAFP()[1][0];
     }
     tot -= cotisation + calculRetenuePension() + calculTransfertPrimePoint();
+
+    return tot;
+}
+
+function calculTotalAnnée() {
+    // ce qui est fixe toute l'année
+    var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
+
+    tot += calculRemboursementDomTravail() + calculPrimeQualif() + calculICM() + calculMICM() + compensation_CSG + calculParticipationPSC();
+    tot -= calculPrevoyanceAero() + calculPrevoyanceMilitaire();
+    tot -= calculRetenuePension() + calculTransfertPrimePoint();
+
+    tot *= 12;
+
+    // ce qui varie selon les mois
+    tot += calculPerfVariable()[1] + calculPerfVariable()[2];
+
+    tot += 4 * calculIAOP();
+
+
+    var cotisation = 0;
+    cotisation += 2 * (calculCSGNonDeductible()[1] + calculCSGDeductible()[1] + calculCRDS()[1] + calculCotisationRAFP()[1][0]);
+    cotisation += calculCSGNonDeductible()[2] + calculCSGDeductible()[2] + calculCRDS()[2] + calculCotisationRAFP()[1][1];
+    cotisation += calculCSGNonDeductible()[3] + calculCSGDeductible()[3] + calculCRDS()[3] + calculCotisationRAFP()[1][1];
+    cotisation = 8 * (calculCSGNonDeductible()[0] + calculCSGDeductible()[0] + calculCRDS()[0] + calculCotisationRAFP()[1][0]);
+
+    tot -= cotisation;
 
     return tot;
 }
@@ -905,6 +938,67 @@ function totalAssietteCRDS() {
 
     return assiettes;
 }
+
+function totalImposable() {
+    // Tous les montants à payer - retenue PC - CSG déductible - cotisation RAFP - transfert primes/points
+
+
+    var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
+
+    tot += calculPrimeQualif();
+
+    var perf_var = 0;
+    if (vue_mois == 6) { // Juin
+        perf_var = calculPerfVariable()[1];
+    } else if (vue_mois == 12) { // Juin
+        perf_var = calculPerfVariable()[2];
+    }
+
+    tot += perf_var + compensation_CSG;
+
+    if (vue_mois == 3 || vue_mois == 6 || vue_mois == 9 || vue_mois == 12) {
+        tot += calculIAOP();
+    }
+
+    var cotisation = 0;
+    if (vue_mois == 3 || vue_mois == 9) {
+        cotisation = calculCSGDeductible()[1] + calculCotisationRAFP()[1][0];
+    } else if (vue_mois == 6) {
+        cotisation = calculCSGDeductible()[2] + calculCotisationRAFP()[1][1];
+    } else if (vue_mois == 12) {
+        cotisation = calculCSGDeductible()[3] + calculCotisationRAFP()[1][1];
+    } else {
+        cotisation = calculCSGDeductible()[0] + calculCotisationRAFP()[1][0];
+    }
+    tot -= cotisation + calculRetenuePension() + calculTransfertPrimePoint();
+
+    return tot;
+}
+
+function totalImposableAnnée() {
+    // ce qui est fixe toute l'année
+    var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
+    tot -= calculRetenuePension() + calculTransfertPrimePoint();
+
+    tot *= 12;
+
+    // ce qui varie selon les mois
+    tot += calculPerfVariable()[1] + calculPerfVariable()[2];
+
+    tot += 4 * calculIAOP();
+
+
+    var cotisation = 0;
+    cotisation += 2 * (calculCSGDeductible()[1] + calculCotisationRAFP()[1][0]);
+    cotisation += calculCSGDeductible()[2] + calculCotisationRAFP()[1][1];
+    cotisation += calculCSGDeductible()[3] + calculCotisationRAFP()[1][1];
+    cotisation = 8 * (calculCSGDeductible()[0] + calculCotisationRAFP()[1][0]);
+
+    tot -= cotisation;
+
+    return tot;
+}
+
 
 function calculCotisationRAFP() {
     var v1 = 0.20 * calculSolde();

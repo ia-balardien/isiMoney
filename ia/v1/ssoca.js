@@ -1100,7 +1100,7 @@ function calculCSGDeductible() {
 
 function calculCSGNonDeductible() {
 
-    return totalAssietteCSG().map(function (v) { return round(v * taux_assiette_CSG_CRDS * taux_CSG_non_deductible + taux_assiette_CSG_CRDS * (taux_CSG_non_deductible + taux_CSG_deductible) * calculICM(), 2) });
+    return totalAssietteCSG().map(function (v) { return round_sup(v * taux_assiette_CSG_CRDS * taux_CSG_non_deductible + taux_assiette_CSG_CRDS * (taux_CSG_non_deductible + taux_CSG_deductible) * calculICM(), 2) });
 }
 
 function calculCRDS() {

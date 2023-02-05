@@ -91,7 +91,7 @@ window.onload = function () {
     remplissageMenuGrades();
 
     loadParameters();
-
+    updatePartVariableUI()
     updateData();
 };
 
@@ -135,8 +135,8 @@ function updateData() {
 
     niveau_poste = document.getElementById("niveau_poste").selectedIndex;
 
-    var part_var_elt = document.getElementById("part_variable");
-    part_variable = part_var_elt.options[part_var_elt.selectedIndex].value;
+    var part_var_elt = document.getElementById("part_variable_slider");
+    part_variable = part_var_elt.value / 100.0;
 
 
     var garnison_elt = document.getElementById("garnison");
@@ -231,7 +231,7 @@ function resetParameters() {
     abonnement_dom_travail = 0;
     categorie_familiale = 0;
     niveau_poste = 0;
-    part_variable = 0;
+    part_variable = 0.0;
     lieu_garnison = 0; // 0 : IDF, 1: Bruz/Bisca, 2: le reste
     type_logement = 0; // 0 : Gratuit, 1: SNI, 2: loc privé, 3: proprio
     loyer_mensuel = 0;
@@ -264,7 +264,8 @@ function setUIParameters() {
 
     document.getElementById("prime_qualif").selectedIndex = prime_qualif;
 
-    setSelectOptionValue("part_variable", part_variable);
+    updatePartVariableUI();
+
     setSelectOptionValue("garnison", lieu_garnison);
     setSelectOptionValue("logement", type_logement);
 
@@ -276,6 +277,46 @@ function setUIParameters() {
 
 
     document.getElementById("participation_PSC").checked = participation_PSC;
+}
+
+function updatePartVariableUI() {
+    document.getElementById("part_variable_slider").value = part_variable * 100;
+    document.getElementById("part_variable_pourcentage").value = part_variable * 100;
+    const pv = calculPerfVariable();
+    document.getElementById("part_variable_juin").value = pv[1];
+    document.getElementById("part_variable_decembre").value = pv[2];
+}
+
+function updatePERFlider() {
+    part_variable = round_inf(document.getElementById("part_variable_slider").value / 100.0, 2);
+
+    updatePartVariableUI();
+    updateData();
+}
+
+function updatePERFPourcentage() {
+    part_variable = document.getElementById("part_variable_pourcentage").value / 100.0;
+
+    updatePartVariableUI();
+    updateData();
+}
+
+function updatePERFMontantJuin() {
+    var val = document.getElementById("part_variable_juin").value;
+    const max_juin = partVariableMax() * 7.0 / 12.0;
+    part_variable = (val / max_juin);
+
+    updatePartVariableUI();
+    updateData();
+}
+
+function updatePERFMontantDecembre() {
+    var val = document.getElementById("part_variable_decembre").value;
+    const max_decembre = partVariableMax() * 5.0 / 12.0;
+    part_variable = (val / max_decembre);
+
+    updatePartVariableUI();
+    updateData();
 }
 
 function updateVue() {
@@ -654,7 +695,7 @@ function calculPrimeQualif() {
     return round(taux * Math.min(calculSolde(), (indice_max * val_point / 12)), 2);
 }
 
-function calculPerfVariable() {
+function partVariableMax() {
     const val_part_variable_max = [
         8_700,
         8_200,
@@ -662,7 +703,13 @@ function calculPerfVariable() {
         5_700,
         5_200,
     ]
-    var perf_var = val_part_variable_max[niveau_poste] * part_variable;
+
+    return val_part_variable_max[niveau_poste];
+}
+
+function calculPerfVariable() {
+
+    var perf_var = partVariableMax() * part_variable;
     var perf_dec = round(5 * perf_var / 12, 2)
     var perf_juin = round(7 * perf_var / 12, 2)
 

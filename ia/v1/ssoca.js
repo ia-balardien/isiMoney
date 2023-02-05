@@ -62,7 +62,7 @@ var loyer_mensuel = 0;
 var date_emmenagement = formatDate(new Date());
 var compensation_CSG = 0;
 var participation_PSC = false;
-
+var taux_impot = 0.0;
 
 var vue_mois = 0;
 
@@ -132,6 +132,7 @@ function updateData() {
 
     participation_PSC = document.getElementById("participation_PSC").checked;
 
+    taux_impot = document.getElementById("taux_impot").value / 100.0;
 
     showMontants();
     showValeursFDS();
@@ -166,6 +167,7 @@ function dictionnaireParametre() {
         "date_emmenagement": date_emmenagement,
         "compensation_CSG": compensation_CSG,
         "participation_PSC": participation_PSC,
+        "taux_impot": taux_impot,
     }
 }
 
@@ -191,6 +193,7 @@ function loadParameters() {
         date_emmenagement = dict["date_emmenagement"];
         compensation_CSG = dict["compensation_CSG"];
         participation_PSC = dict["participation_PSC"];
+        taux_impot = dict["taux_impot"];
 
         setUIParameters();
         updateData();
@@ -214,6 +217,7 @@ function resetParameters() {
     date_emmenagement = formatDate(new Date());
     compensation_CSG = 0;
     participation_PSC = false;
+    taux_impot = 0.0;
 
     setUIParameters();
     updateData();
@@ -250,6 +254,7 @@ function setUIParameters() {
 
 
     document.getElementById("participation_PSC").checked = participation_PSC;
+    document.getElementById("taux_impot").value = taux_impot * 100;
 }
 
 function updatePartVariableUI() {
@@ -473,8 +478,10 @@ function showValeursFDS() {
     document.getElementById("fds_retenue_pc").innerHTML = calculRetenuePension();
     document.getElementById("fds_transfert_primes_points").innerHTML = calculTransfertPrimePoint();
 
-    document.getElementById("fds_net_a_payer").innerHTML = round(calculTotal(), 2);
+    document.getElementById("fds_net_a_payer_avant_impot").innerHTML = round(calculTotal(), 2);
     document.getElementById("fds_imposable").innerHTML = round(totalImposable(), 2);
+    document.getElementById("fds_impot_revenu").innerHTML = impotRevenu();
+    document.getElementById("fds_net_a_payer").innerHTML = netAPayer();
 
 }
 
@@ -1006,6 +1013,14 @@ function totalImposableAnnée() {
     tot -= cotisation;
 
     return tot;
+}
+
+function impotRevenu() {
+    return round_inf(taux_impot * totalImposable(), 2);
+}
+
+function netAPayer() {
+    return calculTotal() - impotRevenu();
 }
 
 

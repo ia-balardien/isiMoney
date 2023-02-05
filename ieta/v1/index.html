@@ -264,6 +264,12 @@
                         </svg>
                     </i>
                 </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="taux_impot">Taux d'imposition</label>
+                    <input class="form-control" type="number" max="100" min="0" id="taux_impot" name="taux_impot"
+                        onchange="updateData()" />
+                    <span class="input-group-text">%</span>
+                </div>
 
                 <!-- <div class="row align-items-center">
                     <div class="col">
@@ -581,12 +587,22 @@
                         <tfoot class="table-group-divider">
                             <tr id="row_total">
                                 <th scope="row">NET A PAYER AVANT IMPÔT SUR LE REVENU</th>
-                                <td id="fds_net_a_payer" colspan="2" style="text-align:center;">
+                                <td id="fds_net_a_payer_avant_impot" colspan="2" style="text-align:center;">
                                 </td>
                             </tr>
                             <tr id="row_total_imposable">
                                 <th scope="row">REVENU IMPOSABLE</th>
                                 <td id="fds_imposable" colspan="2" style="text-align:center;">
+                                </td>
+                            </tr>
+                            <tr id="row_impot_revenu">
+                                <th scope="row">IMPOT SUR LE REVENU</th>
+                                <td id="fds_impot_revenu" colspan="2" style="text-align:center;">
+                                </td>
+                            </tr>
+                            <tr id="row_net_a_payer">
+                                <th scope="row">NET A PAYER</th>
+                                <td id="fds_net_a_payer" colspan="2" style="text-align:center;">
                                 </td>
                             </tr>
                         </tfoot>

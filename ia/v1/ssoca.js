@@ -478,7 +478,7 @@ function showValeursFDS() {
     document.getElementById("fds_retenue_pc").innerHTML = calculRetenuePension();
     document.getElementById("fds_transfert_primes_points").innerHTML = calculTransfertPrimePoint();
 
-    document.getElementById("fds_net_a_payer_avant_impot").innerHTML = round(calculTotal(), 2);
+    document.getElementById("fds_net_a_payer_avant_impot").innerHTML = calculTotal();
     document.getElementById("fds_imposable").innerHTML = round(totalImposable(), 2);
     document.getElementById("fds_impot_revenu").innerHTML = impotRevenu();
     document.getElementById("fds_net_a_payer").innerHTML = netAPayer();
@@ -517,7 +517,7 @@ function calculTotal() {
     }
     tot -= cotisation + calculRetenuePension() + calculTransfertPrimePoint();
 
-    return tot;
+    return round_inf(tot, 2);
 }
 
 function calculTotalAnnée() {
@@ -1020,7 +1020,7 @@ function impotRevenu() {
 }
 
 function netAPayer() {
-    return calculTotal() - impotRevenu();
+    return round(calculTotal() - impotRevenu(), 2);
 }
 
 

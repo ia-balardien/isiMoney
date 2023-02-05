@@ -135,6 +135,7 @@ function updateData() {
 
     showMontants();
     showValeursFDS();
+    updatePartVariableUI();
 }
 
 function setSelectOptionValue(select_id, value) {
@@ -262,14 +263,12 @@ function updatePartVariableUI() {
 function updatePERFlider() {
     part_variable = round_inf(document.getElementById("part_variable_slider").value / 100.0, 2);
 
-    updatePartVariableUI();
     updateData();
 }
 
 function updatePERFPourcentage() {
     part_variable = document.getElementById("part_variable_pourcentage").value / 100.0;
 
-    updatePartVariableUI();
     updateData();
 }
 
@@ -278,7 +277,6 @@ function updatePERFMontantJuin() {
     const max_juin = partVariableMax() * 7.0 / 12.0;
     part_variable = (val / max_juin);
 
-    updatePartVariableUI();
     updateData();
 }
 
@@ -287,7 +285,6 @@ function updatePERFMontantDecembre() {
     const max_decembre = partVariableMax() * 5.0 / 12.0;
     part_variable = (val / max_decembre);
 
-    updatePartVariableUI();
     updateData();
 }
 

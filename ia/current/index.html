@@ -147,7 +147,12 @@
                 </div>
                 <div id="input-date-emmenagement">
                     <div class="input-group mb-3">
-                        <label class="input-group-text text-wrap" for="date-emmenagement">Date d'emménagement</label>
+                        <label class="input-group-text text-wrap" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            for="date-emmenagement">Date d'emménagement
+                            <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                                <use href="#bi-info-square-fill" />
+                            </svg>
+                        </label>
                         <input class="form-control" type="date" id="date-emmenagement" name="date-emmenagement" min="0"
                             onchange="updateData()" />
                     </div>
@@ -561,6 +566,19 @@
                     <li>Zone 3 : DGA MI, DGA EM - Biscarosse, DGA EV - Cazaux, DGA TT, DGA TH, DGA TA</li>
                 </ul>
 
+                </p>
+                <h5>MICM - Date d'emménagement</h5>
+                <p>
+                    La MICM étant dégressive au bout de 7 ans d’absence de mutation (un quart de la MICM par an jusqu'à
+                    10 ans), la date d'emménagement considérée est la date d'arrivée dans la garnison.
+                    <br />
+                    Pour le calcul de la dégressivité, c'est la date du jour qui est considérée. Il peut donc y avoir
+                    des écarts concernant la MICM avec ce que vous recevez. Cela est par essence vrai avec les anciens
+                    simulateurs, qui ne sont plus valides aujourd’hui.
+                    <br />
+                    Pour y remédier, vous pouvez appliquer un décalage sur la date d'emménagement, décalage
+                    correspondant à l'écart entre la date du jour et la date pour laquelle vous voulez obtenir une
+                    simulation.
                 </p>
                 <h5>Indemnité compensatrice de la hausse de la CSG</h5>
                 <p>

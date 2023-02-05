@@ -117,6 +117,11 @@ const round_inf = (number, decimalPlaces) => {
     return Math.floor(number * factorOfTen) / factorOfTen
 }
 
+const round_sup = (number, decimalPlaces) => {
+    const factorOfTen = Math.pow(10, decimalPlaces)
+    return Math.ceil(number * factorOfTen) / factorOfTen
+}
+
 function updateData() {
     ligne_grade_echelon = document.getElementById("grade").selectedIndex;
 
@@ -1051,7 +1056,7 @@ function totalImposableAnnée() {
 }
 
 function impotRevenu() {
-    return round_inf(taux_impot * totalImposable(), 2);
+    return round_sup(taux_impot * totalImposable(), 2);
 }
 
 function netAPayer() {

@@ -647,7 +647,6 @@ function calculSupplementFamilial() {
     var indice_retenu = Math.min(Math.max(indice, 449), 717);
     var nombre_enfants = nombreEnfants();
 
-console.log("nombre d'enfants ", nombre_enfants);
 
     var supp = offset_supplement_familial[nombre_enfants] + supplement_familial[nombre_enfants] * indice_retenu * val_point / 12;
 
@@ -833,7 +832,9 @@ function calculIEM() {
             table_taux = IEM_sub;
     }
 
-    return table_taux[nombreEnfantsConjoints()];
+    var table_index = Math.min(nombreEnfantsConjoints(),2);
+
+    return table_taux[table_index];
 }
 
 
@@ -863,8 +864,6 @@ function calculTransfertPrimePoint() {
 
 function totalAssietteCSG() {
     var base = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculCorpsTechnique()  + compensation_CSG + calculParticipationPSC() + calculIGAR() - calculTransfertPrimePoint();
-
-    console.log(base);
 
     var base_IAOP = base;
 

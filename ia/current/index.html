@@ -105,49 +105,60 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text text-wrap" for="situation_familiale">Situation familiale</label>
+                    <label class="input-group-text text-wrap" for="situation_familiale">Situation Familiale</label>
                     <select class="form-select" id="situation_familiale" name="situation_familiale"
                         onchange="updateData()" required>
-                        <option>Célibataire sans enfant </option>
-                        <option>Marié/Pacsé</option>
-                        <option>1 enfant </option>
-                        <option>2 enfants </option>
-                        <option>3 enfants </option>
-                        <option>4 enfants </option>
-                        <option>5 enfants </option>
-                        <option>6 enfants </option>
-                        <option>7 enfants </option>
-                        <option>8 enfants </option>
-                        <option>9 enfants </option>
-                        <option>10 enfants</option>
-
+                        <option>Celibataire</option>
+                        <option>Marie ou PACSe </option>
+                        <option>Marie ou PACSe avec un militaire</option>
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text text-wrap" for="garnison">Lieu de garnison</label>
+                    <label class="input-group-text text-wrap" for="foyer_fiscal">Foyer fiscal</label>
+                    <select class="form-select" id="foyer_fiscal" name="foyer_fiscal"
+                        onchange="updateData()" required>
+                        <option>1 personne </option>
+                        <option>2 personnes </option>
+                        <option>3 personnes </option>
+                        <option>4 personnes </option>
+                        <option>5 personnes </option>
+                        <option>6 personnes </option>
+                        <option>7 personnes </option>
+                        <option>8 personnes </option>
+                        <option>9 personnes </option>
+                        <option>10 personnes </option>
+                        <option>11 personnes </option>
+                        <option>12 personnes </option>
+                    </select>
+                </div>
+
+                
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="garnison">Zone de garnison</label>
                     <select class="form-select" id="garnison" name="garnison" onchange="updateData()" required>
-                        <option value="0">Ile-de-France</option>
-                        <option value="1">Bruz ou Biscarosse</option>
-                        <option value="2">Province - Autre</option>
+                        <option value="0">Abis</option>
+                        <option value="1">A</option>
+                        <option value="2">B1</option>
+                        <option value="3">B2 et C</option>
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text text-wrap" for="logement">Type de logement</label>
                     <select class="form-select" id="logement" name="logement" onchange="updateData()" required>
                         <option value="0">Logement gratuit</option>
-                        <option value="1">Locataire SNI</option>
-                        <option value="2">Locataire privé</option>
-                        <option value="3">Propriétaire</option>
+                        <option value="1">Logement MinArm</option>
+                        <option value="2">Logement privé</option>
                     </select>
                 </div>
-                <div id="input-loyer">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text text-wrap" for="loyer">Loyer mensuel </label>
-                        <input class="form-control" type="number" id="loyer" name="loyer" min="0"
-                            onchange="updateData()" />
-                        <span class="input-group-text">€</span>
-                    </div>
-                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text text-wrap" for="majoration_IGAR">Majoration IGAR</label>
+                    <select class="form-select" id="majoration_IGAR" name="majoration_IGAR"
+                        onchange="updateData()" required>
+                        <option>Aucune</option>
+                        <option>Commune isolee</option>
+                        <option>Ile-de-France</option>
+                    </select>
+                </div>                
                 <div id="input-date-emmenagement">
                     <div class="input-group mb-3">
                         <label class="input-group-text text-wrap" data-bs-toggle="offcanvas" href="#offcanvasExample"
@@ -348,19 +359,13 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">ICM</th>
-                                <td id="val_icm">
+                                <th scope="row">IGAR</th>
+                                <td id="val_IGAR">
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">MICM</th>
-                                <td id="val_micm">
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">IAOP (TAOPC)</th>
-                                <td id="val_IAOP">
+                                <th scope="row">IEM</th>
+                                <td id="val_IEM">
                                 </td>
                             </tr>
                             <tr>
@@ -478,21 +483,15 @@
                                 </td>
                                 <td></td>
                             </tr>
-                            <tr id="row_icm">
-                                <th scope="row">IND. CHARGES MILITAIRE</th>
-                                <td id="fds_icm">
+                            <tr id="row_igar">
+                                <th scope="row">IGAR</th>
+                                <td id="fds_IGAR">
                                 </td>
                                 <td></td>
                             </tr>
-                            <tr id="row_micm">
-                                <th scope="row">MAJ. IND. CHARGES MILITAIRE</th>
-                                <td id="fds_micm">
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr id="row_IAOP">
-                                <th scope="row">IND.ACT.OBLIG.PROF.</th>
-                                <td id="fds_IAOP">
+                            <tr id="row_iem">
+                                <th scope="row">IEM</th>
+                                <td id="fds_IEM">
                                 </td>
                                 <td></td>
                             </tr>

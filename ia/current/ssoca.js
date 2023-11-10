@@ -1,5 +1,5 @@
 
-const val_point = 58.2004;
+const val_point = 59.0734;
 const table_correspondance_indice = [
     // [indice, grade, échelon, officier sup., officier gen., hors echelle, eligible transfert prime-point, grade + échelon]
     [388, "IA", 1, 0, false, false, false, false, "IA ECH.1 (SLT)"],
@@ -53,12 +53,13 @@ var zone = 0;
 var nbi = 0;
 var corps_tech = false;
 var abonnement_dom_travail = 0;
-var categorie_familiale = 0;
+var foyer_fiscal = 0;
+var situation_familiale = 0;
 var niveau_poste = 0;
 var part_variable = 0;
 var lieu_garnison = 0; // 0 : IDF, 1: Bruz/Bisca, 2: le reste
 var type_logement = 0; // 0 : Gratuit, 1: SNI, 2: loc privé, 3: proprio
-var loyer_mensuel = 0;
+var majoration_IGAR = 0; // 0 : aucune, 1 : MTCI, 2 : MTRP
 var date_emmenagement = formatDate(new Date());
 var compensation_CSG = 0;
 var participation_PSC = false;
@@ -111,7 +112,9 @@ function updateData() {
     var zone_elt = document.getElementById("zone");
     zone = zone_elt.options[zone_elt.selectedIndex].value;
 
-    categorie_familiale = document.getElementById("situation_familiale").selectedIndex;
+    foyer_fiscal = document.getElementById("foyer_fiscal").selectedIndex;
+    situation_familiale = document.getElementById("situation_familiale").selectedIndex;
+    majoration_IGAR = document.getElementById("majoration_IGAR").selectedIndex;
 
     corps_tech = document.getElementById("corps_tech").checked;
 
@@ -129,8 +132,12 @@ function updateData() {
     var logement_elt = document.getElementById("logement");
     type_logement = logement_elt.options[logement_elt.selectedIndex].value;
 
-    loyer_mensuel = document.getElementById("loyer").value;
     date_emmenagement = document.getElementById("date-emmenagement").value;
+    if (majoration_IGAR == 2) {
+        document.getElementById("input-date-emmenagement").className = "visible"
+    } else {
+        document.getElementById("input-date-emmenagement").className = "invisible d-none"
+    }
 
     compensation_CSG = parseFloat("0" + document.getElementById("compensation_CSG").value);
 
@@ -163,12 +170,13 @@ function dictionnaireParametre() {
         "nbi": nbi,
         "corps_tech": corps_tech,
         "abonnement_dom_travail": abonnement_dom_travail,
-        "categorie_familiale": categorie_familiale,
+        "foyer_fiscal": foyer_fiscal,
+        "situation_familiale": situation_familiale,
         "niveau_poste": niveau_poste,
         "part_variable": part_variable,
         "lieu_garnison": lieu_garnison,
+        "majoration_IGAR": majoration_IGAR,
         "type_logement": type_logement,
-        "loyer_mensuel": loyer_mensuel,
         "date_emmenagement": date_emmenagement,
         "compensation_CSG": compensation_CSG,
         "participation_PSC": participation_PSC,
@@ -189,12 +197,13 @@ function loadParameters() {
         nbi = dict["nbi"];
         corps_tech = dict["corps_tech"];
         abonnement_dom_travail = dict["abonnement_dom_travail"];
-        categorie_familiale = dict["categorie_familiale"];
+        foyer_fiscal = dict["foyer_fiscal"];
+        situation_familiale = dict["situation_familiale"];
         niveau_poste = dict["niveau_poste"];
         part_variable = dict["part_variable"];
         lieu_garnison = dict["lieu_garnison"];
+        majoration_IGAR = dict["majoration_IGAR"];
         type_logement = dict["type_logement"];
-        loyer_mensuel = dict["loyer_mensuel"];
         date_emmenagement = dict["date_emmenagement"];
         compensation_CSG = dict["compensation_CSG"];
         participation_PSC = dict["participation_PSC"];
@@ -213,12 +222,13 @@ function resetParameters() {
     nbi = 0;
     corps_tech = false;
     abonnement_dom_travail = 0;
-    categorie_familiale = 0;
+    foyer_fiscal = 0;
+    situation_familiale = 0;
     niveau_poste = 0;
     part_variable = 0.0;
-    lieu_garnison = 0; // 0 : IDF, 1: Bruz/Bisca, 2: le reste
-    type_logement = 0; // 0 : Gratuit, 1: SNI, 2: loc privé, 3: proprio
-    loyer_mensuel = 0;
+    lieu_garnison = 0; 
+    majoration_IGAR = 0;
+    type_logement = 0; // 0 : Gratuit, 1: SNI, 2: privé
     date_emmenagement = formatDate(new Date());
     compensation_CSG = 0;
     participation_PSC = false;
@@ -238,7 +248,8 @@ function setUIParameters() {
 
     setSelectOptionValue("zone", zone);
 
-    document.getElementById("situation_familiale").selectedIndex = categorie_familiale;
+    document.getElementById("foyer_fiscal").selectedIndex = foyer_fiscal;
+    document.getElementById("situation_familiale").selectedIndex = situation_familiale;
 
     document.getElementById("corps_tech").checked = corps_tech;
 
@@ -250,9 +261,15 @@ function setUIParameters() {
 
     setSelectOptionValue("garnison", lieu_garnison);
     setSelectOptionValue("logement", type_logement);
+    
+    document.getElementById("majoration_IGAR").selectedIndex = majoration_IGAR;
+    
+    if (majoration_IGAR == 2) {
+        document.getElementById("input-date-emmenagement").className = "visible"
+    } else {
+        document.getElementById("input-date-emmenagement").className = "invisible d-none"
+    }
 
-
-    document.getElementById("loyer").value = loyer_mensuel;
     document.getElementById("date-emmenagement").value = date_emmenagement;
 
     document.getElementById("compensation_CSG").value = compensation_CSG;
@@ -324,14 +341,11 @@ function showMontants() {
     document.getElementById("val_perf_fixe").innerHTML = texteMontant(round(calculPerfFixe(), 2));
     document.getElementById("val_perf_variable").innerHTML = textePerfVariable();
 
-    document.getElementById("val_icm").innerHTML = texteMontant(round(calculICM(), 2));
-
-    document.getElementById("val_micm").innerHTML = texteMontant(round(calculMICM(), 2));
+    document.getElementById("val_IGAR").innerHTML = texteMontant(round(calculIGAR(), 2));
+    document.getElementById("val_IEM").innerHTML = texteMontant(round(calculIEM(), 2));
 
     document.getElementById("val_compensatrice_CSG").innerHTML = texteMontant(compensation_CSG);
     document.getElementById("val_participation_PSC").innerHTML = texteMontant(calculParticipationPSC());
-
-    document.getElementById("val_IAOP").innerHTML = texteMontant(calculIAOP());
 
     document.getElementById("val_retenue_pc").innerHTML = texteMontant(calculRetenuePension());
     document.getElementById("val_csg_non_deductible").innerHTML = texteTableauCotisation(calculCSGNonDeductible());
@@ -341,15 +355,6 @@ function showMontants() {
     document.getElementById("val_fond_aero").innerHTML = texteMontant(calculPrevoyanceAero());
     document.getElementById("val_fond_militaire").innerHTML = texteMontant(calculPrevoyanceMilitaire());
     document.getElementById("val_transfert_primes_points").innerHTML = texteMontant(calculTransfertPrimePoint());
-
-
-    if (eligibleMICM()) {
-        document.getElementById("input-loyer").className = "visible";
-        document.getElementById("input-date-emmenagement").className = "visible";
-    } else {
-        document.getElementById("input-loyer").className = "invisible d-none";
-        document.getElementById("input-date-emmenagement").className = "invisible d-none";
-    }
 
 
     document.getElementById("val_total_annee").innerHTML = texteMontant(calculTotalAnnée());
@@ -423,16 +428,9 @@ function showValeursFDS() {
         fds_perf_row.className = "invisible d-none";
     }
 
-    document.getElementById("fds_icm").innerHTML = calculICM();
+    document.getElementById("fds_IGAR").innerHTML = calculIGAR();
+    document.getElementById("fds_IEM").innerHTML = calculIEM();
 
-    var micm = calculMICM();
-
-    if (micm == 0) {
-        document.getElementById("row_micm").className = "invisible d-none";
-    } else {
-        document.getElementById("row_micm").className = "visible";
-    }
-    document.getElementById("fds_micm").innerHTML = micm;
 
 
 
@@ -473,13 +471,6 @@ function showValeursFDS() {
         document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][0];
     }
 
-    document.getElementById("fds_IAOP").innerHTML = calculIAOP();
-    if (vue_mois == 3 || vue_mois == 6 || vue_mois == 9 || vue_mois == 12) {
-        document.getElementById("row_IAOP").className = "visible";
-    } else {
-        document.getElementById("row_IAOP").className = "invisible d-none";
-    }
-
     document.getElementById("fds_retenue_pc").innerHTML = calculRetenuePension();
     document.getElementById("fds_transfert_primes_points").innerHTML = calculTransfertPrimePoint();
 
@@ -502,11 +493,8 @@ function calculTotal() {
         perf_var = calculPerfVariable()[2];
     }
 
-    tot += perf_var + calculICM() + calculMICM() + compensation_CSG + calculParticipationPSC();
+    tot += perf_var + calculIGAR() + calculIEM() + compensation_CSG + calculParticipationPSC();
 
-    if (vue_mois == 3 || vue_mois == 6 || vue_mois == 9 || vue_mois == 12) {
-        tot += calculIAOP();
-    }
 
     tot -= calculPrevoyanceAero() + calculPrevoyanceMilitaire();
 
@@ -529,7 +517,7 @@ function calculTotalAnnée() {
     // ce qui est fixe toute l'année
     var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
 
-    tot += calculRemboursementDomTravail() + calculPerfFixe() + calculICM() + calculMICM() + compensation_CSG + calculParticipationPSC();
+    tot += calculRemboursementDomTravail() + calculPerfFixe() + calculIGAR() + calculIEM() + compensation_CSG + calculParticipationPSC();
     tot -= calculPrevoyanceAero() + calculPrevoyanceMilitaire();
     tot -= calculRetenuePension() + calculTransfertPrimePoint();
 
@@ -537,9 +525,6 @@ function calculTotalAnnée() {
 
     // ce qui varie selon les mois
     tot += calculPerfVariable()[1] + calculPerfVariable()[2];
-
-    tot += 4 * calculIAOP();
-
 
     var cotisation = 0;
     cotisation += 2 * (calculCSGNonDeductible()[1] + calculCSGDeductible()[1] + calculCRDS()[1] + calculCotisationRAFP()[1][0]);
@@ -573,6 +558,22 @@ function estHorsEchelle() {
 }
 
 
+function estMariePacse() {
+    return situation_familiale != 0
+}
+
+function nombreEnfants() {
+    var nombre_enfants = foyer_fiscal; // foyer_fiscal = 0 si celibataire (decalage de 1)
+
+    if (estMariePacse() && foyer_fiscal >= 1) {
+        nombre_enfants -= 1;
+    }
+    return nombre_enfants
+}
+
+function nombreEnfantsConjoints() {
+    return foyer_fiscal
+}
 
 function calculSolde() {
     var solde = calculIndice() * val_point / 12;
@@ -614,8 +615,7 @@ function calculCorpsTechnique() {
 
 function calculSupplementFamilial() {
     const supplement_familial = [
-        0,          // Célibataire
-        0,          // Marié
+        0,          // Marié ou celibataire
         0,          // 1 enfant
         3 / 100,    // 2 enfants
         8 / 100,    // 3 enfants
@@ -629,8 +629,7 @@ function calculSupplementFamilial() {
     ]
 
     const offset_supplement_familial = [
-        0.00, // Célibataire
-        0.00, // Marié
+        0.00, // Marié ou celibataire
         2.29, // 1 enfant
         10.67, // 2 enfants
         15.24, // 3 enfants
@@ -646,7 +645,11 @@ function calculSupplementFamilial() {
 
     var indice = calculIndice();
     var indice_retenu = Math.min(Math.max(indice, 449), 717);
-    var supp = offset_supplement_familial[categorie_familiale] + supplement_familial[categorie_familiale] * indice_retenu * val_point / 12;
+    var nombre_enfants = nombreEnfants();
+
+console.log("nombre d'enfants ", nombre_enfants);
+
+    var supp = offset_supplement_familial[nombre_enfants] + supplement_familial[nombre_enfants] * indice_retenu * val_point / 12;
 
 
     return round(supp, 2)
@@ -687,80 +690,82 @@ function calculPerfVariable() {
     return [perf_dec + perf_juin, perf_juin, perf_dec];
 }
 
-const ICM_logement_gratuit = [
-    [[3_187.42, 3_187.42], [2_592.26, 2_592.26]],
-    [[1_613.48, 3_468.64], [1_492.01, 3_061.04]],
-    [[1_360.68, 1_918.21], [1_430.51, 1_991.95]],
-];
+const IGAR_T = 937;
+const IGAR_G = [2.30, 2.40];
+const IGAR_Z = [1.92, 1.43, 1.15, 1.00];
+const IGAR_F = [1.00, 1.90, 2.80, 3.70, 4.80];
+const IGAR_L = [0.70, 1.00];
 
-const ICM_logement_payant_paris = [
-    [[5_954.13, 5_954.13], [4_777.49, 4_777.49]],
-    [[4_049.99, 7_961.61], [3_789.15, 7_134.92]],
-    [[3_770.52, 5_286.49], [3_553.90, 4_982.81]],
-];
-
-const ICM_logement_payant_province = [
-    [[5_419.10, 5_419.10], [4_348.19, 4_348.19]],
-    [[3_686.08, 7_246.21], [3_448.66, 6_493.77]],
-    [[3_431.70, 4_811.48], [3_234.51, 4_535.09]],
-]
-
-function calculCatFamilialeICM() {
-    var cat_familiale_ICM = 0; // Célibataire par défaut
-
-    if (categorie_familiale > 0) {
-        // enfants ou non célibataires
-        cat_familiale_ICM = 1;
-        if (categorie_familiale > 3) {
-            // plus de 2 enfants à charge
-            cat_familiale_ICM = 2;
-        }
-    }
-
-    return cat_familiale_ICM;
-}
-function calculICM() {
-
-    var cat_familiale_ICM = calculCatFamilialeICM()
-
-    var table_ICM;
-
+function calculIGARBase() {
     if (type_logement == 0) {
-        table_ICM = ICM_logement_gratuit;
-    } else {
-        // logement payant
-        if (lieu_garnison == 0) {
-            // IDF
-            table_ICM = ICM_logement_payant_paris
-        } else {
-            table_ICM = ICM_logement_payant_province
-        }
+        return 0;
     }
 
-    var taux = 0;
-    if (lieu_garnison == 1) {
-        // Garnison isolé, taux 2
-        taux = 1;
-    }
-
-    var type_off = 1;
+    var type_off = 0;
 
     if (estOfficierSuperieurOuGeneral()) {
-        type_off = 0;
+        type_off = 1;
     }
 
-    var ICM = 0;
+    var taille_foyer = Math.min(foyer_fiscal,4);
+    return (IGAR_T * IGAR_G[type_off] * IGAR_Z[lieu_garnison] * IGAR_F[taille_foyer]* IGAR_L[type_logement-1])/12;
+}
 
-    for (let i = 0; i <= cat_familiale_ICM; i++) {
-        ICM += table_ICM[i][type_off][taux];
+function calculIGAR_MTCI()
+{
+    const Tm1 = 2546/12;
+    var P = foyer_fiscal+1;
+    var P2 = P*P
+    return Tm1 * P2/(P2+2);
+}
+
+function calculIGAR_MTRP()
+{
+    const debut_IGAR = new Date(2023,11,1);
+    var palier = new Date(date_emmenagement);
+
+    if(palier <= debut_IGAR || foyer_fiscal == 0) {
+        return 0;
     }
 
-    return round_inf(ICM / 12, 2)
+    var MTRP_base = 0.12 * calculIGARBase();
+    
+    // application de la dégressivité
+    const now = new Date();
+
+    var i = 0;
+    for (; i <= 6; i++) {
+        if (now <= palier) {
+            break;
+        }
+        palier.addMonths(12);
+    }
+
+    i-=3;
+    var deg = Math.min(Math.max(1.0 - i / 4.0,0.0),1.0);
+    MTRP = MTRP_base * deg;
+
+    return MTRP;
 }
 
-function eligibleMICM() {
-    return type_logement != 3 && categorie_familiale != 0; // propriétaire ou célibataire ? Pas de MICM
+function calculIGAR() {
+
+    if (type_logement == 0) {
+        return 0;
+    }
+
+    var IGAR = calculIGARBase();
+    if (majoration_IGAR == 1)
+    {
+        IGAR += calculIGAR_MTCI();
+    }else if (majoration_IGAR == 2)
+    {
+        IGAR += calculIGAR_MTRP();
+    }
+
+    return IGAR;
 }
+
 
 
 Date.isLeapYear = function (year) {
@@ -788,108 +793,49 @@ Date.prototype.addMonths = function (value) {
 };
 
 
-function calculMICM() {
-    if (type_logement == 3) { // propriétaire, pas de MICM
-        return 0;
+const IEM_sub = 
+[
+    219.74, 346.21, 467.47
+];
+
+
+const IEM_sup = 
+[
+    270.19, 406.96, 522.30
+];
+
+const IEM_sub_couple_mili = 
+[
+    NaN, 282.97, 343.60
+];
+
+
+const IEM_sup_couple_mili = 
+[
+    NaN, 338.57, 396.24
+];
+
+
+function calculIEM() {
+    var table_taux;
+
+    if (estOfficierSuperieurOuGeneral())
+    {
+        if (situation_familiale == 2) // couple mili
+            table_taux = IEM_sup_couple_mili;
+        else
+            table_taux = IEM_sup;
+    }else{
+
+        if (situation_familiale == 2) // couple mili
+            table_taux = IEM_sub_couple_mili;
+        else
+            table_taux = IEM_sub;
     }
 
-    const K_tab = [[0.9, 0.1], [0.7, 0.3]];
-    var z = Math.min(1, zone); // retourne 0 si Zone 1 (zone = 0), 1 sinon
-    var K = K_tab[z][0];
-    var K1 = K_tab[z][1];
-
-    var P0 = calculMICMLoyerPlancher();
-    var P1 = calculMICMLoyerPlafond();
-    // var K, K1 = calculICMIndex();
-
-    var MICM;
-    if (P1 == P0) {
-        MICM = 0;
-    } else {
-        var L = Math.min(Math.max(loyer_mensuel, P0), P1);
-        MICM = (K + K1 * (P1 - L) / (P1 - P0)) * (L - P0);
-    }
-
-    // application de la dégressivité
-    const date_emm = new Date(date_emmenagement);
-    const now = new Date();
-
-    var palier = new Date(date_emmenagement);
-    palier.addMonths(12 * 7);
-
-    var i = 0;
-    for (; i <= 4; i++) {
-        if (now <= palier) {
-            break;
-        }
-        palier.addMonths(12);
-    }
-
-    if (i >= 5) {
-        // plus droit à la MICM
-        MICM = 0;
-    } else {
-        MICM = MICM * (1.0 - i / 4.0);
-    }
-
-    return round(MICM, 2);
+    return table_taux[nombreEnfantsConjoints()];
 }
 
-function calculMICMLoyerPlancher() {
-    const table_loyer_plancher = [
-        [0.00, 0.00, 0.00],
-        [0.11, 0.10, 0.09],
-        [0.13, 0.12, 0.11],
-        [0.15, 0.14, 0.13],
-        [0.17, 0.16, 0.15],
-        [0.17, 0.16, 0.15],
-        [0.19, 0.18, 0.17],
-        [0.19, 0.18, 0.17],
-        [0.21, 0.20, 0.19],
-        [0.21, 0.20, 0.19],
-    ];
-    var type_grade = 2; // subalterne par défaut
-    // attention, l'ordre des tests important ici
-    if (estOfficierSuperieur()) type_grade = 1;
-    if (estHorsEchelle()) type_grade = 0;
-
-    var cat_familiale_MICM = categorie_familiale;
-    cat_familiale_MICM = Math.min(cat_familiale_MICM, 9);
-
-    var pourcentage = table_loyer_plancher[cat_familiale_MICM][type_grade];
-
-    return calculSolde() * pourcentage;
-}
-
-function calculMICMLoyerPlafond() {
-    const table_loyer_plafond = [
-        [2.62, 2.06, 1.63],
-        [2.62, 2.06, 1.63],
-        [3.07, 2.50, 1.95],
-    ];
-
-    var loyer_plancher = calculMICMLoyerPlancher();
-
-    var type_grade = 2; // subalterne par défaut
-    if (estOfficierGeneral()) type_grade = 0;
-    if (estOfficierSuperieur()) type_grade = 1;
-
-    var loyer_plafond = loyer_plancher * table_loyer_plafond[type_grade][zone];
-
-    return loyer_plafond;
-}
-
-function calculMICMIndex() {
-    const K_ = [0.9, 0.7];
-    const K1 = [0.1, 0.3];
-
-    var z = Math.min(1, zone); // retourne 0 si Zone 1 (zone = 0), 1 sinon
-    return (K[z], K1[z]);
-}
-
-function calculIAOP() {
-    return 255.0;
-}
 
 function calculParticipationPSC() {
     if (participation_PSC) {
@@ -916,10 +862,11 @@ function calculTransfertPrimePoint() {
 
 
 function totalAssietteCSG() {
-    var base = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculCorpsTechnique() + calculMICM() + compensation_CSG + calculParticipationPSC() - calculTransfertPrimePoint();
+    var base = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculCorpsTechnique()  + compensation_CSG + calculParticipationPSC() + calculIGAR() - calculTransfertPrimePoint();
 
+    console.log(base);
 
-    var base_IAOP = base + calculIAOP();
+    var base_IAOP = base;
 
     var perf_var = calculPerfVariable();
 
@@ -934,7 +881,7 @@ function totalAssietteCSG() {
 function totalAssietteCRDS() {
     var assiettes = totalAssietteCSG();
     for (i in assiettes) {
-        assiettes[i] += calculICM();
+        assiettes[i] +=  calculIEM();
     }
 
     return assiettes;
@@ -955,11 +902,7 @@ function totalImposable() {
         perf_var = calculPerfVariable()[2];
     }
 
-    tot += perf_var + compensation_CSG;
-
-    if (vue_mois == 3 || vue_mois == 6 || vue_mois == 9 || vue_mois == 12) {
-        tot += calculIAOP();
-    }
+    tot += perf_var + calculIGAR() + compensation_CSG;
 
     var cotisation = 0;
     if (vue_mois == 3 || vue_mois == 9) {
@@ -987,9 +930,6 @@ function totalImposableAnnée() {
     // ce qui varie selon les mois
     tot += calculPerfVariable()[1] + calculPerfVariable()[2];
 
-    tot += 4 * calculIAOP();
-
-
     var cotisation = 0;
     cotisation += 2 * (calculCSGDeductible()[1] + calculCotisationRAFP()[1][0]);
     cotisation += calculCSGDeductible()[2] + calculCotisationRAFP()[1][1];
@@ -1012,7 +952,7 @@ function netAPayer() {
 
 function calculCotisationRAFP() {
     var v1 = 0.20 * calculSolde();
-    var v_base = calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculIAOP() + calculCorpsTechnique() + calculMICM() + compensation_CSG + calculParticipationPSC();
+    var v_base = calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculCorpsTechnique() + calculIGAR() + compensation_CSG + calculParticipationPSC();
 
     var v2_tab = calculPerfVariable();
     v2_tab[0] = 0.0;
@@ -1032,40 +972,28 @@ function calculPrevoyanceAero() {
     return round(0.015 * calculCorpsTechnique(), 2);
 }
 
+const prevoyance_OffSup = [9.57,16.04,22.08];
+const prevoyance_OffSub = [7.51,13.48,19.00];
+
+
 function calculPrevoyanceMilitaire() {
 
     if (corps_tech) {
         return 0.0;
     } else {
 
-        var table_ICM;
-
-        var cat_familiale_ICM = calculCatFamilialeICM()
-
-        if (lieu_garnison == 0) {
-            // IDF
-            table_ICM = ICM_logement_payant_paris
-        } else {
-            table_ICM = ICM_logement_payant_province
-        }
-
-
-
-        var taux = 0; // pour le calcul de prevoyance, seul le taux normal est utilisé
-
-        var type_off = 1;
-
+        var table_prevoyance = prevoyance_OffSub;
         if (estOfficierSuperieurOuGeneral()) {
-            type_off = 0;
+            table_prevoyance = prevoyance_OffSup;
         }
 
-        var ICM_prev = 0;
 
-        for (let i = 0; i <= cat_familiale_ICM; i++) {
-            ICM_prev += table_ICM[i][type_off][taux];
-        }
-
-        return round_inf((0.02 * ICM_prev / 12), 2);
+        if (foyer_fiscal >= 4)
+            return table_prevoyance[2];
+        else if (foyer_fiscal > 0) 
+            return table_prevoyance[1];
+        else
+            return table_prevoyance[0];
     }
 }
 
@@ -1081,7 +1009,7 @@ function calculCSGDeductible() {
 
 function calculCSGNonDeductible() {
 
-    return totalAssietteCSG().map(function (v) { return round_sup(v * taux_assiette_CSG_CRDS * taux_CSG_non_deductible + taux_assiette_CSG_CRDS * (taux_CSG_non_deductible + taux_CSG_deductible) * calculICM(), 2) });
+    return totalAssietteCSG().map(function (v) { return round_sup(v * taux_assiette_CSG_CRDS * taux_CSG_non_deductible + taux_assiette_CSG_CRDS * (taux_CSG_non_deductible + taux_CSG_deductible) * calculIEM(), 2) });
 }
 
 function calculCRDS() {
@@ -1116,7 +1044,5 @@ function texteRAFP() {
     } else {
 
         return `${texteMontant(rafp[1][1])} - Juin<br/> ${texteMontant(rafp[1][2])} - Décembre<br/>${texteMontant(rafp[1][0])} - Autres mois`;
-
-        texteTableauCotisation(rafp[1]);
     }
 }

@@ -83,7 +83,7 @@ var majoration_IGAR = 0; // 0 : aucune, 1 : MTCI, 2 : MTRP
 var date_emmenagement = formatDate(new Date());
 var compensation_CSG = 0;
 var participation_PSC = false;
-var prime_qualif = 0;
+var prime_parcours = 0;
 var taux_impot = 0.0;
 
 var vue_mois = 0;
@@ -166,7 +166,7 @@ function updateData() {
 
     participation_PSC = document.getElementById("participation_PSC").checked;
 
-    prime_qualif = document.getElementById("prime_qualif").selectedIndex;
+    prime_parcours = document.getElementById("prime_parcours").selectedIndex;
 
     taux_impot = document.getElementById("taux_impot").value / 100.0;
 
@@ -204,7 +204,7 @@ function dictionnaireParametre() {
         "date_emmenagement": date_emmenagement,
         "compensation_CSG": compensation_CSG,
         "participation_PSC": participation_PSC,
-        "prime_qualif": prime_qualif,
+        "prime_parcours": prime_parcours,
         "taux_impot": taux_impot,
     }
 }
@@ -232,7 +232,7 @@ function loadParameters() {
         date_emmenagement = dict["date_emmenagement"];
         compensation_CSG = dict["compensation_CSG"];
         participation_PSC = dict["participation_PSC"];
-        prime_qualif = dict["prime_qualif"];
+        prime_parcours = dict["prime_parcours"];
         taux_impot = dict["taux_impot"];
 
         setUIParameters();
@@ -257,7 +257,7 @@ function resetParameters() {
     date_emmenagement = formatDate(new Date());
     compensation_CSG = 0;
     participation_PSC = false;
-    prime_qualif = 0;
+    prime_parcours = 0;
     taux_impot = 0.0;
 
     setUIParameters();
@@ -282,7 +282,7 @@ function setUIParameters() {
 
     document.getElementById("niveau_poste").selectedIndex = niveau_poste;
 
-    document.getElementById("prime_qualif").selectedIndex = prime_qualif;
+    document.getElementById("prime_parcours").selectedIndex = prime_parcours;
 
     updatePartVariableUI();
 
@@ -376,7 +376,7 @@ function showMontants() {
     document.getElementById("val_fond_militaire").innerHTML = texteMontant(calculPrevoyanceMilitaire());
     document.getElementById("val_transfert_primes_points").innerHTML = texteMontant(calculTransfertPrimePoint());
 
-    document.getElementById("val_prime_qualif").innerHTML = texteMontant(calculPrimeQualif());
+    document.getElementById("val_prime_parcours").innerHTML = texteMontant(calcul3PM());
 
     document.getElementById("val_total_annee").innerHTML = texteMontant(calculTotalAnnée());
     document.getElementById("val_total_imposable_annee").innerHTML = texteMontant(totalImposableAnnée());
@@ -424,12 +424,12 @@ function showValeursFDS() {
     document.getElementById("fds_fond_aero").innerHTML = calculPrevoyanceAero();
     document.getElementById("fds_fond_militaire").innerHTML = calculPrevoyanceMilitaire();
 
-    if (prime_qualif != 0) {
-        document.getElementById("row_prime_qualif").className = "visible";
+    if (prime_parcours != 0) {
+        document.getElementById("row_prime_parcours").className = "visible";
     } else {
-        document.getElementById("row_prime_qualif").className = "invisible d-none";
+        document.getElementById("row_prime_parcours").className = "invisible d-none";
     }
-    document.getElementById("fds_prime_qualif").innerHTML = calculPrimeQualif();
+    document.getElementById("fds_prime_parcours").innerHTML = calcul3PM();
 
     var rbt_dom_trav = calculRemboursementDomTravail();
     if (rbt_dom_trav == 0) {
@@ -504,7 +504,7 @@ function showValeursFDS() {
 }
 
 function calculTotal() {
-    var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique() + calculPrimeQualif();
+    var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique() + calcul3PM();
 
     tot += calculRemboursementDomTravail();
 
@@ -536,7 +536,7 @@ function calculTotalAnnée() {
     // ce qui est fixe toute l'année
     var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
 
-    tot += calculRemboursementDomTravail() + calculPrimeQualif() + calculIGAR() + calculIEM() + compensation_CSG + calculParticipationPSC();
+    tot += calculRemboursementDomTravail() + calcul3PM() + calculIGAR() + calculIEM() + compensation_CSG + calculParticipationPSC();
     tot -= calculPrevoyanceAero() + calculPrevoyanceMilitaire();
     tot -= calculRetenuePension() + calculTransfertPrimePoint();
 
@@ -676,14 +676,14 @@ function calculRemboursementDomTravail() {
     return round(abonnement_dom_travail / 2, 2)
 }
 
-function calculPrimeQualif() {
+function calcul3PM() {
     var taux = 0;
     var indice_max = 0;
 
-    if (prime_qualif == 1) {
+    if (prime_parcours == 1) {
         taux = 16.0 / 100;
         indice_max = table_correspondance_indice[10][0]; // indice max prime en compte : indice IETA EE
-    } else if (prime_qualif == 2) {
+    } else if (prime_parcours == 2) {
         taux = 28.0 / 100;
         indice_max = table_correspondance_indice[35][0]; // indice max prime en compte : indice ICETA 1 ECH.3 (HE A3)
     }
@@ -887,7 +887,7 @@ function calculTransfertPrimePoint() {
 
 
 function totalAssietteCSG() {
-    var base = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculPrimeQualif() + calculCorpsTechnique() + calculIGAR() + compensation_CSG + calculParticipationPSC() - calculTransfertPrimePoint();
+    var base = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calcul3PM() + calculCorpsTechnique() + calculIGAR() + compensation_CSG + calculParticipationPSC() - calculTransfertPrimePoint();
 
 
 
@@ -916,7 +916,7 @@ function totalImposable() {
 
     var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
 
-    tot += calculPrimeQualif();
+    tot += calcul3PM();
 
     var perf_var = 0;
     if (vue_mois == 6) { // Juin
@@ -944,7 +944,7 @@ function totalImposable() {
 function totalImposableAnnée() {
     // ce qui est fixe toute l'année
     var tot = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculCorpsTechnique();
-    tot += calculPrimeQualif();
+    tot += calcul3PM();
 
     tot -= calculRetenuePension() + calculTransfertPrimePoint();
 
@@ -974,7 +974,7 @@ function netAPayer() {
 
 function calculCotisationRAFP() {
     var v1 = 0.20 * calculSolde();
-    var v_base = calculResidence() + calculSupplementFamilial() + calculPrimeQualif() + calculCorpsTechnique() + calculIGAR() + compensation_CSG + calculParticipationPSC();
+    var v_base = calculResidence() + calculSupplementFamilial() + calcul3PM() + calculCorpsTechnique() + calculIGAR() + compensation_CSG + calculParticipationPSC();
 
     var v2_tab = calculPerfVariable();
     v2_tab[0] = 0.0;

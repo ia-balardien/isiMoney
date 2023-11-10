@@ -134,7 +134,12 @@
 
                 
                 <div class="input-group mb-3">
-                    <label class="input-group-text text-wrap" for="garnison">Zone de garnison</label>
+                    <label class="input-group-text text-wrap" data-bs-toggle="offcanvas" href="#offcanvasExample" 
+                        for="garnison">Zone de garnison
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label>
                     <select class="form-select" id="garnison" name="garnison" onchange="updateData()" required>
                         <option value="0">Abis</option>
                         <option value="1">A</option>
@@ -151,7 +156,12 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text text-wrap" for="majoration_IGAR">Majoration IGAR</label>
+                    <label class="input-group-text text-wrap" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            for="majoration_IGAR">Majoration IGAR
+                        <svg class="bi ms-2" width="16" height="16" fill="currentColor">
+                            <use href="#bi-info-square-fill" />
+                        </svg>
+                    </label>
                     <select class="form-select" id="majoration_IGAR" name="majoration_IGAR"
                         onchange="updateData()" required>
                         <option>Aucune</option>

@@ -922,10 +922,9 @@ function totalImposableAnnée() {
     tot += calculPerfVariable()[1] + calculPerfVariable()[2];
 
     var cotisation = 0;
-    cotisation += 2 * (calculCSGDeductible()[0] + calculCotisationRAFP()[1][0]);
     cotisation += calculCSGDeductible()[1] + calculCotisationRAFP()[1][1];
     cotisation += calculCSGDeductible()[2] + calculCotisationRAFP()[1][1];
-    cotisation += 8 * (calculCSGDeductible()[0] + calculCotisationRAFP()[1][0]);
+    cotisation += 10 * (calculCSGDeductible()[0] + calculCotisationRAFP()[1][0]);
 
     tot -= cotisation;
 

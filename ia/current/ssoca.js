@@ -832,7 +832,12 @@ function calculIEM() {
             table_taux = IEM_sub;
     }
 
-    var table_index = Math.min(nombreEnfantsConjoints(),2);
+    var table_index = 0;
+    var n_enfant_conjoints = nombreEnfantsConjoints();
+    if (n_enfant_conjoints > 3 )
+        table_index = 2;
+    else if (n_enfant_conjoints != 0 )
+        table_index = 1;
 
     return table_taux[table_index];
 }
@@ -976,7 +981,6 @@ const prevoyance_OffSub = [7.51,13.48,19.00];
 
 
 function calculPrevoyanceMilitaire() {
-
     if (corps_tech) {
         return 0.0;
     } else {

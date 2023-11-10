@@ -449,20 +449,15 @@ function showValeursFDS() {
     }
     document.getElementById("fds_participation_PSC").innerHTML = calculParticipationPSC();
 
-    if (vue_mois == 3 || vue_mois == 9) {
+    if (vue_mois == 6) {
         document.getElementById("fds_csg_non_deductible").innerHTML = calculCSGNonDeductible()[1];
         document.getElementById("fds_csg_deductible").innerHTML = calculCSGDeductible()[1];
         document.getElementById("fds_crds").innerHTML = calculCRDS()[1];
-        document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][0];
-    } else if (vue_mois == 6) {
+        document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][1];
+    } else if (vue_mois == 12) {
         document.getElementById("fds_csg_non_deductible").innerHTML = calculCSGNonDeductible()[2];
         document.getElementById("fds_csg_deductible").innerHTML = calculCSGDeductible()[2];
         document.getElementById("fds_crds").innerHTML = calculCRDS()[2];
-        document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][1];
-    } else if (vue_mois == 12) {
-        document.getElementById("fds_csg_non_deductible").innerHTML = calculCSGNonDeductible()[3];
-        document.getElementById("fds_csg_deductible").innerHTML = calculCSGDeductible()[3];
-        document.getElementById("fds_crds").innerHTML = calculCRDS()[3];
         document.getElementById("fds_contrib_RAFP").innerHTML = calculCotisationRAFP()[1][1];
     } else {
         document.getElementById("fds_csg_non_deductible").innerHTML = calculCSGNonDeductible()[0];
@@ -499,12 +494,10 @@ function calculTotal() {
     tot -= calculPrevoyanceAero() + calculPrevoyanceMilitaire();
 
     var cotisation = 0;
-    if (vue_mois == 3 || vue_mois == 9) {
-        cotisation = calculCSGNonDeductible()[1] + calculCSGDeductible()[1] + calculCRDS()[1] + calculCotisationRAFP()[1][0];
-    } else if (vue_mois == 6) {
-        cotisation = calculCSGNonDeductible()[2] + calculCSGDeductible()[2] + calculCRDS()[2] + calculCotisationRAFP()[1][1];
+    if (vue_mois == 6) {
+        cotisation = calculCSGNonDeductible()[1] + calculCSGDeductible()[1] + calculCRDS()[1] + calculCotisationRAFP()[1][1];
     } else if (vue_mois == 12) {
-        cotisation = calculCSGNonDeductible()[3] + calculCSGDeductible()[3] + calculCRDS()[3] + calculCotisationRAFP()[1][1];
+        cotisation = calculCSGNonDeductible()[2] + calculCSGDeductible()[2] + calculCRDS()[2] + calculCotisationRAFP()[1][1];
     } else {
         cotisation = calculCSGNonDeductible()[0] + calculCSGDeductible()[0] + calculCRDS()[0] + calculCotisationRAFP()[1][0];
     }
@@ -526,11 +519,9 @@ function calculTotalAnnée() {
     // ce qui varie selon les mois
     tot += calculPerfVariable()[1] + calculPerfVariable()[2];
 
-    var cotisation = 0;
-    cotisation += 2 * (calculCSGNonDeductible()[1] + calculCSGDeductible()[1] + calculCRDS()[1] + calculCotisationRAFP()[1][0]);
+    var cotisation = 10 * (calculCSGNonDeductible()[0] + calculCSGDeductible()[0] + calculCRDS()[0] + calculCotisationRAFP()[1][0]);
+    cotisation += calculCSGNonDeductible()[1] + calculCSGDeductible()[1] + calculCRDS()[1] + calculCotisationRAFP()[1][1];
     cotisation += calculCSGNonDeductible()[2] + calculCSGDeductible()[2] + calculCRDS()[2] + calculCotisationRAFP()[1][1];
-    cotisation += calculCSGNonDeductible()[3] + calculCSGDeductible()[3] + calculCRDS()[3] + calculCotisationRAFP()[1][1];
-    cotisation = 8 * (calculCSGNonDeductible()[0] + calculCSGDeductible()[0] + calculCRDS()[0] + calculCotisationRAFP()[1][0]);
 
     tot -= cotisation;
 
@@ -762,7 +753,7 @@ function calculIGAR() {
         IGAR += calculIGAR_MTRP();
     }
 
-    return IGAR;
+    return round(IGAR, 2);
 }
 
 
@@ -870,14 +861,12 @@ function calculTransfertPrimePoint() {
 function totalAssietteCSG() {
     var base = calculSolde() + calculNbi() + calculResidence() + calculSupplementFamilial() + calculPerfFixe() + calculCorpsTechnique()  + compensation_CSG + calculParticipationPSC() + calculIGAR() - calculTransfertPrimePoint();
 
-    var base_IAOP = base;
-
     var perf_var = calculPerfVariable();
 
-    var base_IAOP_perf_juin = base_IAOP + perf_var[1];
-    var base_IAOP_perf_dec = base_IAOP + perf_var[2];
+    var base_IAOP_perf_juin = base + perf_var[1];
+    var base_IAOP_perf_dec = base + perf_var[2];
 
-    var tab = [base, base_IAOP, base_IAOP_perf_juin, base_IAOP_perf_dec];
+    var tab = [base, base_IAOP_perf_juin, base_IAOP_perf_dec];
 
     return tab;
 }
@@ -909,12 +898,10 @@ function totalImposable() {
     tot += perf_var + calculIGAR() + compensation_CSG;
 
     var cotisation = 0;
-    if (vue_mois == 3 || vue_mois == 9) {
-        cotisation = calculCSGDeductible()[1] + calculCotisationRAFP()[1][0];
-    } else if (vue_mois == 6) {
-        cotisation = calculCSGDeductible()[2] + calculCotisationRAFP()[1][1];
+    if (vue_mois == 6) {
+        cotisation = calculCSGDeductible()[1] + calculCotisationRAFP()[1][1];
     } else if (vue_mois == 12) {
-        cotisation = calculCSGDeductible()[3] + calculCotisationRAFP()[1][1];
+        cotisation = calculCSGDeductible()[2] + calculCotisationRAFP()[1][1];
     } else {
         cotisation = calculCSGDeductible()[0] + calculCotisationRAFP()[1][0];
     }
@@ -935,10 +922,10 @@ function totalImposableAnnée() {
     tot += calculPerfVariable()[1] + calculPerfVariable()[2];
 
     var cotisation = 0;
-    cotisation += 2 * (calculCSGDeductible()[1] + calculCotisationRAFP()[1][0]);
+    cotisation += 2 * (calculCSGDeductible()[0] + calculCotisationRAFP()[1][0]);
+    cotisation += calculCSGDeductible()[1] + calculCotisationRAFP()[1][1];
     cotisation += calculCSGDeductible()[2] + calculCotisationRAFP()[1][1];
-    cotisation += calculCSGDeductible()[3] + calculCotisationRAFP()[1][1];
-    cotisation = 8 * (calculCSGDeductible()[0] + calculCotisationRAFP()[1][0]);
+    cotisation += 8 * (calculCSGDeductible()[0] + calculCotisationRAFP()[1][0]);
 
     tot -= cotisation;
 
@@ -1027,7 +1014,7 @@ function textePerfVariable() {
 
 function texteTableauCotisation(v) {
     // ${v[0]} € - Jan., Fév., Avr., Mai, Jui., Aou., Oct., Nov.<br/>
-    return `${texteMontant(v[1])} - Mars, Septembre<br/> ${texteMontant(v[2])} - Juin<br/>${texteMontant(v[3])} - Décembre<br/> ${texteMontant(v[0])} - Autres mois`;
+    return `${texteMontant(v[1])} - Juin<br/>${texteMontant(v[2])} - Décembre<br/> ${texteMontant(v[0])} - Autres mois`;
 }
 
 function texteMontant(v, show_zero = false) {
